@@ -168,6 +168,19 @@ All the data transmission coming from customer device to Midtrans should be encr
 In order to ensure the customer-to-midtrans encryption are properly implemented, merchants are required to use official Midtrans provided javascript library for card transaction (midtrans.min.js, snap.js, or Mobile SDK) and strictly prohibited to record card credentials to their own system, unless PCI DSS certified. 
 If you have proof of how a 3rd party can possibly break this security, feel free to contact us, we will connect you to our Infosec team.
 
+### Merchant is using GOPAY `callback_url` but customer does not redirected to expected url/deeplink what is wrong?
+For GOPAY transaction, merchant can specify `callback_url`, customer will be redirected to `callback_url` after attempting GOPAY payment within GOJEK app, wether the result is failure or success. If customer did not get redirected properly, please check the following points:
+- **Is customer making payment on GOJEK app via QR Code?**
+Making payment by scanning QR will not result in redirect. Only `gojek://` deeplink method will result in redirect.
+
+- **Do merchant use `http/https` protocol as the url?**
+Make sure to add trailing slash `/`  at the end of the url. For example `https://myshop/finish_payment/`. GOPAY will automatically append `?<some-query>` at the end of the url, some web framework unable to handle `?` directly appended to your url like `https://myshop/finish_payment?order_id=123`, so you have to ensure to add `/`.
+
+- **Do merchant use app deeplink protocol as the url?**
+Make sure merchant app already handle that deeplink url, for example `slack://finis_payment/`, make sure the `slack` app can handle `/finish_payment` as deeplink
+
+- **Do the callback_url trigger any redirect?**
+Sometime that url trigger redirect to another url, or you have internal redirect rule within your network/device. Please check that url.
 
 ### Can merchant retrieve/store GOPAY deeplink url in mobile app?
 For Snap payment product:
@@ -180,3 +193,22 @@ Integration is API based, so deeplink/QR url can be retrieved by merchant direct
 
 ### Why is customer GOPAY is deducted while the transaction is recorded as failure/expire on Midtrans Dashboard?
 In the case of GOPAY system already deduct customer’s GOPAY but having technical issues that result in failure to notify Midtrans (and Merchant) about the transaction status, GOPAY system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Merchant-Midtrans-GOPAY to failure state. Merchant can always refer to status on Midtrans, as accurate/final status. Merchant may advise customer to re-check their GOPAY balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on GOPAY internal process. If customers still does not receive any refund, Merchant can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount
+
+### How to use Core API **register card** endpoint from frontend?
+Please follow [this demo](https://gist.githack.com/rizdaprasetya/cecce986cb3c71ca0ec1a404d3063105/raw/4fadc5e425b4ddc770a005e33383fd1a8e481134/index.html ':include :type=iframe width=100% height=400px')
+
+### Merchant use Mobile SDK but unable to get Snap Token, how to resolve it?
+Typically the Mobile SDK transaction flow is: 
+1. Merchant mobile dev config & setup Midtrans Android/iOS SDK especially the environment, clientKey & merchantServerURL
+2. Given correct implementation, SDK will do API request to merchantServerURL to retireve Snap transaction token
+3. Backend implementation of that merchant server will forward the API request to Midtrans' Snap API endpoint, adding HTTP auth header from serverKey
+4. Snap API will respond with token, merchant server need to print/output the API response as-is
+5. SDK will auto parse the API response, and once token retrieved, payment page will be started.
+
+Things to do:
+- Make sure that on 1# you have config the correct sandbox environment, merchantServerUrl & clientKey.
+- Make sure that on app, the [SDK implementation is correctly following the docs](https://mobile-docs.midtrans.com/)
+- Make sure to implement merchant server / backend.
+- Make sure that on backend / 3# you have config the correct serverKey and API endpoint to correct sandbox config.
+- Incase the issue persists, please share any error messages recorded on log, either from the Mobile or backend.
+- Check the backend log to see if it's able to get API response from Snap API, sometime API can reject invalid request. Provide the log to us if needed to check. Or at least the order_id of transaction, so we can crosscheck it with our API log.
