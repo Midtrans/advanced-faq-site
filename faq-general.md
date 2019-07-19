@@ -212,3 +212,18 @@ Things to do:
 - Make sure that on backend / 3# you have config the correct serverKey and API endpoint to correct sandbox config.
 - Incase the issue persists, please share any error messages recorded on log, either from the Mobile or backend.
 - Check the backend log to see if it's able to get API response from Snap API, sometime API can reject invalid request. Provide the log to us if needed to check. Or at least the order_id of transaction, so we can crosscheck it with our API log.
+
+### Can you explain the flow of Recurring/One Click transaction?
+Please refer to below sequence diagram:
+
+![one click flow](./asset/image/recurring_one_click_sequence.png)
+
+### Can you explain the flow of Recurring/One Click transaction with Register Card API?
+Please refer to below sequence diagram:
+
+![one click via register card flow](./asset/image/recurring_via_register_card.png)
+
+### Can you explain the flow of Two Click transaction?
+Please refer to below sequence diagram:
+
+![two click flow](./asset/image/two_click_sequence.png)
