@@ -227,3 +227,8 @@ Please refer to below sequence diagram:
 Please refer to below sequence diagram:
 
 ![two click flow](./asset/image/two_click_sequence.png)
+
+### Merchant updated iOS SDK from v1.14.7 and below, but old implementation did not work after update. How to resolve it?
+
+- Older SDK require config of `CC_CONFIG.secure3DEnabled = ...`, newer SDK no longer requires it, please remove that config. Then add this config `CC_CONFIG.authenticationType = MTAuthenticationType3DS`
+- Please make sure that your backend/merchant-server will also accept that changes. Older SDK will generate request that have JSON keys `"secure" : true`, newer SDK will have `"authentication" : "3ds"`. Make sure there are no type checking or similar that are rejecting the JSON.
