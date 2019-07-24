@@ -40,7 +40,7 @@ For payment method specific promo merchant have to use `enabled_payments`, custo
 
 It doesn’t have to be different `button`, UX wise merchant can make it as checkboxes “I want to pay with < payment method >” for customer to check, etc. As long as it can give merchant backend information that your customers want to pay with specific payment method, and merchant backend send the `enabled_payments` accordingly.
 
-### Why Midtrans HTTP notification looks “empty” when received on merchant backend / notification handler?
+### Why Midtrans HTTP notification looks "empty" when received on merchant backend / notification handler?
 It can be caused by `notification_url` (set by merchant on Dashboard) is ending up in HTTP redirect, when HTTP notification sent by Midtrans notification engine. If HTTP redirect happens, it can cause HTTP POST call to be redirected as HTTP GET, which means it will no longer contains HTTP body which contains the transaction data. Resulting in merchant notification handler getting empty request body, and might throw error. Redirect can be caused by network/reverse proxy/web framework used by merchant.
 
 **To resolve**:
@@ -70,7 +70,7 @@ In case of OTP not received by customer, the issue is between card issuer’s (b
 
 Merchant should inform customer to contact their card issuer support center, they should explain in details that they are unable to do online transaction and did not receive 3DS / OTP. Also inform the error message displayed on the page if any. Make sure they explain about the issue is for online transaction, because in some cases card issuer support center might only check the card issue for offline transaction and tell customer the card is fine and able to transact.
 
-### Merchant don’t want to pass real `customer_details` data to Midtrans, is there any consequences? how should merchant do? 
+### Merchant don’t want to pass real "customer_details" data to Midtrans, is there any consequences? how should merchant do? 
 There is no legal or business constraint if merchant want to do that. But there might be technical consequences in terms of how Midtrans Fraud Detection System (FDS) works.
 Few sample cases are:
 - FDS have blacklist database of online fraudster, if customer is a fraudster, and merchant pass fake email, fraud might not be detected.
@@ -86,7 +86,7 @@ Merchant can check the FDS deny reason by searching the transaction’s order id
 
 If the customer are trusted and verified by Merchant, and Merchant think their transaction should be accepted, Merchant can request to whitelist specific customer by customer email. Please provide the customer email(s) to Midtrans FDS team via email to operations.fraud@midtrans.com  and explain they should be whitelisted. Our FDS team will respond promptly.
 
-### Merchant is switching their system configuration from Midtrans Sandbox environment to Midtrans Production environment (or switching between different MID/Account), but when making credit card transactions they encounter error message `Credit card token is no longer available`. What should merchant do?
+### Merchant is switching their system configuration from Midtrans Sandbox environment to Midtrans Production environment (or switching between different MID/Account), but when making credit card transactions they encounter error message "Credit card token is no longer available". What should merchant do?
 The issue happen because the server key and client key mismatch. 
 Please make sure both the client & server key used is coming from the same MID/account
 Please make sure both the client & server key used is coming from the same environment (Sandbox/Production) of that MID/account.
@@ -232,3 +232,8 @@ Please refer to below sequence diagram:
 
 - Older SDK require config of `CC_CONFIG.secure3DEnabled = ...`, newer SDK no longer requires it, please remove that config. Then add this config `CC_CONFIG.authenticationType = MTAuthenticationType3DS`
 - Please make sure that your backend/merchant-server will also accept that changes. Older SDK will generate request that have JSON keys `"secure" : true`, newer SDK will have `"authentication" : "3ds"`. Make sure there are no type checking or similar that are rejecting the JSON.
+
+### There are some missing field/attributes on the JSON response/notification, it seems the JSON is not consistent, is this expected? 
+In Midtrans, we are following [Google JSON Style Guide](https://google.github.io/styleguide/jsoncstyleguide.xml). According to the style guide it is recommended if a property doesn't have any value (`null`) then it should be removed. Reference: https://google.github.io/styleguide/jsoncstyleguide.xml#Empty/Null_Property_Values
+
+So yes it is expected to have few missing JSON field/attribute, it means the value is `null` for that field/attribute. Please adjust your implementation accordingly to accomodate this behaviour.
