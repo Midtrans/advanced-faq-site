@@ -237,3 +237,9 @@ Please refer to below sequence diagram:
 In Midtrans, we are following [Google JSON Style Guide](https://google.github.io/styleguide/jsoncstyleguide.xml). According to the style guide it is recommended if a property doesn't have any value (`null`) then it should be removed. Reference: https://google.github.io/styleguide/jsoncstyleguide.xml#Empty/Null_Property_Values
 
 So yes it is expected to have few missing JSON field/attribute, it means the value is `null` for that field/attribute. Please adjust your implementation accordingly to accomodate this behaviour.
+
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+.
