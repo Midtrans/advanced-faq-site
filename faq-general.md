@@ -168,6 +168,8 @@ All the data transmission coming from customer device to Midtrans should be encr
 In order to ensure the customer-to-midtrans encryption are properly implemented, merchants are required to use official Midtrans provided javascript library for card transaction (midtrans.min.js, snap.js, or Mobile SDK) and strictly prohibited to record card credentials to their own system, unless PCI DSS certified. 
 If you have proof of how a 3rd party can possibly break this security, feel free to contact us, we will connect you to our Infosec team.
 
+Some auditors may see credentials transmitted in plain text, it is because the audit happen on the customer device itself. So ofcourse the data are visible from customer device. Auditor should try to check from non customer device, for example from network layer as 3rd party between midtrans and customer. Auditor will see the data is encrypted from 3rd party.
+
 ### Merchant is using GOPAY `callback_url` but customer does not redirected to expected url/deeplink what is wrong?
 For GOPAY transaction, merchant can specify `callback_url`, customer will be redirected to `callback_url` after attempting GOPAY payment within GOJEK app, wether the result is failure or success. If customer did not get redirected properly, please check the following points:
 - **Is customer making payment on GOJEK app via QR Code?**
@@ -181,6 +183,11 @@ Make sure merchant app already handle that deeplink url, for example `slack://fi
 
 - **Do the callback_url trigger any redirect?**
 Sometime that url trigger redirect to another url, or you have internal redirect rule within your network/device. Please check that url.
+
+### How long is Gopay tranaction will be available to be paid after being created (after pending transaction status)?
+By default expiry for Gopay transaction is 15 minutes. However this can be customized by sending additional JSON parameter during transaction creation. Merchant can send `custom_expiry` ([Core API](https://api-docs.midtrans.com/#charge-features)) or `expiry` ([Snap API](https://snap-docs.midtrans.com/#json-objects)) parameter.
+
+It is **not recommended to set expiry below 15 minutes**, because Midtrans' expiry scheduler only reliably expire transaction with 15 minutes or more expiry. If merchant want the transaction to expire less than 15 minutes, they can utilize API [cancel](https://api-docs.midtrans.com/#cancel-transaction) or [expire](https://api-docs.midtrans.com/#expire-transaction) instead. Which merchant can trigger at anytime on a `pending` transaction.
 
 ### Can merchant retrieve/store GOPAY deeplink url in mobile app?
 For Snap payment product:
@@ -213,6 +220,22 @@ Things to do:
 - Incase the issue persists, please share any error messages recorded on log, either from the Mobile or backend.
 - Check the backend log to see if it's able to get API response from Snap API, sometime API can reject invalid request. Provide the log to us if needed to check. Or at least the order_id of transaction, so we can crosscheck it with our API log.
 
+### Can you explain the implementation details of Credit Card 3DS transaction?
+
+Please refer to this sample implementation:
+- https://github.com/Midtrans/midtrans-nodejs-client/blob/master/examples/expressApp/views/core_api_credit_card_frontend_sample.ejs
+- https://github.com/Midtrans/midtrans-python-client/blob/master/examples/flask_app/templates/core_api_credit_card_frontend_sample.html
+
+Or please refer to this demo:
+- https://anice.win/3ds_new/
+
+Which source code is available at:
+- https://gist.github.com/rizdaprasetya/9d16893578d600a03075939ef74c5c1f
+
+Sequence diagram:
+
+![card transaction flow](./asset/image/Card-Transaction-3DS-new-flow.png)
+
 ### Can you explain the flow of Recurring/One Click transaction?
 Please refer to below sequence diagram:
 
@@ -228,6 +251,17 @@ Please refer to below sequence diagram:
 
 ![two click flow](./asset/image/two_click_sequence.png)
 
+### Can you explain the flow of Gopay transaction?
+Please refer to below sequence diagram,
+
+**Deeplink Mode**:
+
+![Gopay Deeplink flow](./asset/image/Gopay-CoreAPI-Deeplink.png)
+
+**QR Mode**:
+
+![Gopay QR flow](./asset/image/Gopay-CoreAPI-QR.png)
+
 ### Merchant updated iOS SDK from v1.14.7 and below, but old implementation did not work after update. How to resolve it?
 
 - Older SDK require config of `CC_CONFIG.secure3DEnabled = ...`, newer SDK no longer requires it, please remove that config. Then add this config `CC_CONFIG.authenticationType = MTAuthenticationType3DS`
@@ -238,6 +272,8 @@ In Midtrans, we are following [Google JSON Style Guide](https://google.github.io
 
 So yes it is expected to have few missing JSON field/attribute, it means the value is `null` for that field/attribute. Please adjust your implementation accordingly to accomodate this behaviour.
 
+### Why on iOS device Gopay deeplink is taking customer to different app and not Gojek?
+Some apps might interfere with `gojek://` app deeplink url and taking over customer to their app. This behavior is caused by the app, if you find this keep happening please report the intefering app to us and Gojek team will raise the issue to iOS app store for further investigation. As temprorary please inform customer to uninstall the app that causing the interference.
 
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
