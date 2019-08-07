@@ -1,0 +1,15 @@
+/* fix <code> overflowing to edge on small width screen */
+.markdown-section code:not([class*="lang-"]):not([class*="language-"]) {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+/* fix <a> overflowing to edge on small width screen */
+.markdown-section a {
+    word-break: break-word;
+}
+.markdown-section h3 {
+    line-height: 2rem;
+}
+.markdown-section {
+    max-width: 45rem;
+}
