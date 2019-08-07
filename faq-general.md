@@ -107,6 +107,7 @@ The available payment statuses are:
 That is expected, in production mode a failure of payment within Go-Jek App will be contained only within the app, and will allow customer to retry payment. So failure is not notified to Midtrans or Merchant. Transaction status will remain pending, to allow retry attempt from customer. If customer fail to do successful payment until expiry-time exceeded (default expiry is 15 minutes) the transaction status will then change to `EXPIRE` and cannot be paid.
 
 ### For MIGS acquiring (and facilitator agreement type), if my customer says their card is deducted but Midtrans says the transaction is failure, what to do next?
+<!-- TODO Translate to english -->
 Untuk case mismatch status dengan acquiring bank yg menggunakan MIGS (yg biasanya hanya terjadi kalau sisi MIGS terjadi timeout), silahkan dari Merchant cek ke portal MIGS menggunakan akun yg di dapat dari pihak bank. Kemudian cek/search apakah id tersebut transaksinya success. ID yg bisa di search di portal MIGS adalah `transaction_id` pada response API Midtrans.
 
 Kemudian jika memang transaksi success di portal MIGS, silahkan tentukan transaksi akan di cancel/refund, atau dibiarkan success. Jika dibiarkan success, silahkan infokan ke Midtrans agar kami menyamakan status transaksi menjadi success.
@@ -275,6 +276,26 @@ So yes it is expected to have few missing JSON field/attribute, it means the val
 ### Why on iOS device Gopay deeplink is taking customer to different app and not Gojek?
 Some apps might interfere with `gojek://` app deeplink url and taking over customer to their app. This behavior is caused by the app, if you find this keep happening please report the intefering app to us and Gojek team will raise the issue to iOS app store for further investigation. As temprorary please inform customer to uninstall the app that causing the interference.
 
+### Why Merchant unable to do other VA transaction on Snap / Mobile SDK?
+Please check during Snap token creation, if merchant send `enabled_payments` parameter.
+Sending 
+```
+"enabled_payments": ["other_va"]
+``` 
+may not work, please change to
+```
+"enabled_payments": ["other_va","bni_va"]
+``` 
+or 
+```
+"enabled_payments": ["other_va","permata_va"]
+```
+Because behind the scene `other_va` will need to utilize BNI or Permata VA for the transaction.
+
+### How to debug network / API call on Midtrans iOS SDK to check for any API validation error?
+Please enable network logging using:
+```[[MidtransNetworkLogger shared] startLogging];```
+You can provide us the network log result for any issue.
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
