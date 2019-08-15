@@ -1,3 +1,6 @@
+body {
+    background: #EEEEEE;
+}
 /* fix <code> overflowing to edge on small width screen */
 .markdown-section code:not([class*="lang-"]):not([class*="language-"]) {
     white-space: pre-wrap;
