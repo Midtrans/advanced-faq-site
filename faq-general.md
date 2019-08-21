@@ -14,6 +14,16 @@ Those configs may be found on app config/manifest. Or specific code when calling
 
 Because a lot of payment methods within snap will redirect customer to bank website, merchant mobile dev need to make sure the app allow webview to open bank website domains. Which might mean whitelisting any domain to be opened, because in case of credit card, customers can use any issuing bank credit card, which the web domain can be anything.
 
+### Can Merchant revoke or cancel an active Snap Token to prevent customer proceed the transaction?
+There's no official revoke or cancel API method for Snap token.
+
+However there's some work around: 
+- If you know how long you will need an Snap token to active, you can set via `expiry` JSON parameter. Make sure to set `start_time`. Or
+- Do another `createTransaction()` with **same order ID** to obtain another token, it will revoke the old token, only the latest 1 should active.
+
+If you just need to close payment popup on customer browser, using frontend javascript you can call `snap.hide()` function to close the payment popup.
+
+
 ### Merchant want to use Bin API ( /v1/bins/bin_number), but getting "Invalid authentication credentials"?
 In order to use this API, need to manually request Turbo team to whitelist the specific merchant. Provide Merchant ID & environment.
 
@@ -235,7 +245,7 @@ Which source code is available at:
 
 Sequence diagram:
 
-![card transaction flow](./asset/image/Card-Transaction-3DS-new-flow.png)
+![card transaction flow](./asset/image/card_transaction_3ds.png)
 
 ### Can you explain the flow of Recurring/One Click transaction?
 Please refer to below sequence diagram:
@@ -257,11 +267,11 @@ Please refer to below sequence diagram,
 
 **Deeplink Mode**:
 
-![Gopay Deeplink flow](./asset/image/Gopay-CoreAPI-Deeplink.png)
+![Gopay Deeplink flow](./asset/image/gopay_coreapi-deeplink.png)
 
 **QR Mode**:
 
-![Gopay QR flow](./asset/image/Gopay-CoreAPI-QR.png)
+![Gopay QR flow](./asset/image/gopay_coreapi_qr.png)
 
 ### Merchant updated iOS SDK from v1.14.7 and below, but old implementation did not work after update. How to resolve it?
 
