@@ -86,7 +86,7 @@ Few sample cases are:
 - FDS have blacklist database of online fraudster, if customer is a fraudster, and merchant pass fake email, fraud might not be detected.
 - FDS estimate fraud behavior based on transaction count for each email, phone number, and other unique data. If merchant sent static dummy email, it can get blocked after certain amount of transaction, To avoid this issue merchant should use dynamic dummy data, that is unique for each user. For example merchant can mask customer@email.com to MmtMPHTlqVZyE0@dummycompanyemail.com 
 
-In most cases, merchant can just not sent the customer data, if the data is not mandatory. E.g: GOPAY transaction do not require customer email or phone number at all.
+In most cases, merchant can just not sent the customer data, if the data is not mandatory. E.g: Gopay transaction do not require customer email or phone number at all.
 
 ### While doing VA transaction, Merchant got error 505 “Unable to create va_number for this transaction.” What's the issue and what should merchant do?
 The issue might happen because after several attempts bank unable to allocate VA number for the transaction at that moment. For error code 5xx. Please try to resend the request.
@@ -181,13 +181,13 @@ If you have proof of how a 3rd party can possibly break this security, feel free
 
 Some auditors may see credentials transmitted in plain text, it is because the audit happen on the customer device itself. So ofcourse the data are visible from customer device. Auditor should try to check from non customer device, for example from network layer as 3rd party between midtrans and customer. Auditor will see the data is encrypted from 3rd party.
 
-### Merchant is using GOPAY `callback_url` but customer does not redirected to expected url/deeplink what is wrong?
-For GOPAY transaction, merchant can specify `callback_url`, customer will be redirected to `callback_url` after attempting GOPAY payment within GOJEK app, wether the result is failure or success. If customer did not get redirected properly, please check the following points:
+### Merchant is using Gopay `callback_url` but customer does not redirected to expected url/deeplink what is wrong?
+For Gopay transaction, merchant can specify `callback_url`, customer will be redirected to `callback_url` after attempting Gopay payment within GOJEK app, wether the result is failure or success. If customer did not get redirected properly, please check the following points:
 - **Is customer making payment on GOJEK app via QR Code?**
 Making payment by scanning QR will not result in redirect. Only `gojek://` deeplink method will result in redirect.
 
 - **Do merchant use `http/https` protocol as the url?**
-Make sure to add trailing slash `/`  at the end of the url. For example `https://myshop/finish_payment/`. GOPAY will automatically append `?<some-query>` at the end of the url, some web framework unable to handle `?` directly appended to your url like `https://myshop/finish_payment?order_id=123`, so you have to ensure to add `/`.
+Make sure to add trailing slash `/`  at the end of the url. For example `https://myshop/finish_payment/`. Gopay will automatically append `?<some-query>` at the end of the url, some web framework unable to handle `?` directly appended to your url like `https://myshop/finish_payment?order_id=123`, so you have to ensure to add `/`.
 
 - **Do merchant use app deeplink protocol as the url?**
 Make sure merchant app already handle that deeplink url, for example `slack://finis_payment/`, make sure the `slack` app can handle `/finish_payment` as deeplink
@@ -200,17 +200,19 @@ By default expiry for Gopay transaction is 15 minutes. However this can be custo
 
 It is **not recommended to set expiry below 15 minutes**, because Midtrans' expiry scheduler only reliably expire transaction with 15 minutes or more expiry. If merchant want the transaction to expire less than 15 minutes, they can utilize API [cancel](https://api-docs.midtrans.com/#cancel-transaction) or [expire](https://api-docs.midtrans.com/#expire-transaction) instead. Which merchant can trigger at anytime on a `pending` transaction.
 
-### Can merchant retrieve/store GOPAY deeplink url in mobile app?
+### Can merchant retrieve/store Gopay deeplink url in mobile app?
 For Snap payment product:
 Payment UI is managed by Midtrans
-- If merchant are using Snap.js or redirect_url to display transaction, the GOPAY deeplink/QR url is currently not retrievable from merchant side.
+- If merchant are using Snap.js or redirect_url to display transaction, the Gopay deeplink/QR url is currently not retrievable from merchant side.
 - If merchant are using Midtrans Mobile SDK (native Android/iOS), deeplink are retrievable using the SDK.
 
 For Core API payment product:
 Integration is API based, so deeplink/QR url can be retrieved by merchant directly as API response and can be stored by merchant however they like.
 
-### Why is customer GOPAY is deducted while the transaction is recorded as failure/expire on Midtrans Dashboard?
-In the case of GOPAY system already deduct customer’s GOPAY but having technical issues that result in failure to notify Midtrans (and Merchant) about the transaction status, GOPAY system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Merchant-Midtrans-GOPAY to failure state. Merchant can always refer to status on Midtrans, as accurate/final status. Merchant may advise customer to re-check their GOPAY balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on GOPAY internal process. If customers still does not receive any refund, Merchant can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount
+### Why is customer Gopay deducted while the transaction recorded as failure/expire on Midtrans Dashboard?
+In the very rare case of Gopay system already deduct customer’s Gopay but having technical issues that result in failure to notify Midtrans (and Merchant) about the transaction status, Gopay system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Merchant-Midtrans-Gopay to failure state. Merchant can always refer to status on Midtrans, as the most accurate (and final) status. Merchant may advise customer to re-check their Gopay balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on Gopay internal process. If customers still does not receive any refund, Merchant can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount.
+
+If the customer wish to proceed transaction, please create new transaction.
 
 ### How to use Core API **register card** endpoint from frontend?
 Please follow [this demo](https://gist.githack.com/rizdaprasetya/cecce986cb3c71ca0ec1a404d3063105/raw/4fadc5e425b4ddc770a005e33383fd1a8e481134/index.html ':include :type=iframe width=100% height=400px')
