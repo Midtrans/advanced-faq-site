@@ -1,6 +1,10 @@
 [**:house: Home**](/)
 - **:question: FAQ**
-	- [FAQ - General Topic](faq-general.md)
+	- [General Topic](faq-general.md)
+	- [Credit Card](faq-credit-card.md)
+- **Credit Card**
+	- [Fullpayment 3DS](credit-card-fullpayment.md)
+	- [One Click (Recurring) Feature](credit-card-oneclick.md)
 - **:wrench: Integration Library Docs**
 	- [Node JS](/gh/Midtrans/midtrans-nodejs-client/master/README.md)
 	- [Python](/gh/Midtrans/midtrans-python-client/master/README.md)
