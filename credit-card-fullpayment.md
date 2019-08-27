@@ -68,11 +68,13 @@ var options = {
 MidtransNew3ds.getCardToken(cardData, options);
 ```
 
-If all goes well, we will be able to get card `token_id` inside `onSuccess` callback function. It will be used as one of JSON parameter for `/charge` API call.
+If all goes well, we will be able to get card `token_id` inside `onSuccess` callback function. It will be used as one of JSON parameter for `/charge` API request.
+
+Note: `token_id` will need to be passed from frontend to backend for next step, it can be done using AJAX via Javascript, or html form POST, etc. Merchant are free to implement.
 
 ## 2. Send Transaction Data to API Charge
 
-Charge API call should be done from Merchant's backend. **Server Key** (from your account's [Dashboard](https://account.midtrans.com)) will be needed to [authenticate the request](https://api-docs.midtrans.com/#http-s-header).
+Charge API request should be done from Merchant's backend. **Server Key** (from your account's [Dashboard](https://account.midtrans.com)) will be needed to [authenticate the request](https://api-docs.midtrans.com/#http-s-header).
 
 ### Charge API request
 This is example of `/charge` API request in Curl, please implement according to your backend language (you can also check our available [language libraries](http://docs.midtrans.com/en/welcome/pluginlibrary.html)). Input `token_id` retrieved previously.
@@ -133,7 +135,7 @@ We will get the **API response** like the following.
 }
 ```
 
-If the `transaction_status` is `capture` and `fraud_status` is `accept`, it means the transaction is non 3DS, and is now complete.
+If the `transaction_status` is `capture` and `fraud_status` is `accept`, it means the transaction is non 3DS, success, and is now complete.
 
 If the `transaction_status` is `pending` and `redirect_url` exists, it means the transaction is 3DS, and we will need to proceed to next step, opening 3DS authentication page.
 
