@@ -6,6 +6,9 @@
 	- Card Payment
 		- [Basic Card Payment](credit-card-fullpayment.md)
 		- [One Click (Recurring) Feature](credit-card-oneclick.md)
+- **Misc**
+	- POS Partner
+		- [GoPay Integration](partner-gopay-pos.md)
 - **:wrench: Integration Library Docs**
 	- [Node JS](/gh/Midtrans/midtrans-nodejs-client/master/README.md)
 	- [Python](/gh/Midtrans/midtrans-python-client/master/README.md)
