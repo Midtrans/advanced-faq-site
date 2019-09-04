@@ -112,11 +112,11 @@ Optional: we can customize `credit_card` object for other [advanced features](ht
 ...
 ```
 
-Optional: we can customize [transaction_details data](https://api-docs.midtrans.com/#json-object). To include data like customer_details, item_details, etc.
+Optional: we can customize [transaction_details data](https://api-docs.midtrans.com/#json-object). To include data like customer_details, item_details, etc. It's recommended to send as much detail so on report/dashboard those information will be included.
 
 ### Charge API response
 We will get the **API response** like the following.
-```
+```javascript
 {
   "status_code": "201",
   "status_message": "Success, Credit Card transaction is successful",

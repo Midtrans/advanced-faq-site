@@ -106,12 +106,12 @@ On asynchronous payment such as Bank Transfer, Go Pay, BCA Klikpay, etc. Payment
 
 The available payment statuses are:
 
-- Deny: Payment provider rejected the payment code/id creation.
-- Pending: Payment specific code for customer to pay is created. Customer need to complete payment at the bank/payment provider website/Application/ATM etc.
-- Expire: Customer fail to pay at bank/payment provider within the specified expiry time.
-- Cancel: Transaction is canceled by trigger from Merchant.
-- Settlement: Customer payment at bank/payment provider is successfully confirmed.
-- Refund: Transaction is refunded by trigger from Merchant.
+- `Deny`: Payment provider rejected the payment code/id creation.
+- `Pending`: Payment specific code for customer to pay is created. Customer need to complete payment at the app/bank/payment provider website/Application/ATM etc.
+- `Expire`: Customer fail to pay at bank/payment provider within the specified expiry time.
+- `Cancel`: Transaction is canceled by trigger from Merchant.
+- `Settlement`: Customer payment is successfully confirmed by bank/payment provider.
+- `Refund`: Transaction is refunded by trigger from Merchant.
 
 ### Merchant’s developer tested failure scenario within Go-Pay simulator, but nothing happens, transaction status still pending, what happens?
 That is expected, in production mode a failure of payment within Go-Jek App will be contained only within the app, and will allow customer to retry payment. So failure is not notified to Midtrans or Merchant. Transaction status will remain pending, to allow retry attempt from customer. If customer fail to do successful payment until expiry-time exceeded (default expiry is 15 minutes) the transaction status will then change to `EXPIRE` and cannot be paid.
