@@ -238,11 +238,36 @@ If the `transaction_status` is `capture` and `fraud_status` is `accept`, it mean
 
 > **IMPORTANT NOTE:** To update transaction status on your backend/database, DO NOT solely rely on frontend callbacks! For security reason to make sure the status is authentically coming from Midtrans, only update transaction status based on HTTP Notification or [API Get Status](https://api-docs.midtrans.com/#get-transaction-status).
 
-## 4. Handle Notification
+## 4. Handle HTTP Notification
 
-Changes of `transaction_status` on a transaction will trigger HTTP notification from Midtrans to Merchant backend, to ensure merchant is securely updated. Including if card transaction success (`capture`). So apart of JSON result above, Merchant backend will be notified by Midtrans.
+HTTP notification from Midtrans to Merchant backend will also be triggered on event of `transaction_status` getting updated, to ensure merchant is securely informed. Including if card transaction success or denied. So apart of JSON result above, Merchant backend will be notified by Midtrans.
 
-Refer [here on how to handle HTTP Notification](https://api-docs.midtrans.com/#handing-notifications).
+HTTP POST request with JSON body will be sent to Merchant's **notification url** configured on [dashboard](https://account.midtrans.com) (Settings > Configuration > Notification URL), this is the sample JSON body that will be received by Merchant:
+
+```javascript
+{
+  "transaction_time": "2019-08-27 17:22:08",
+  "transaction_status": "capture",
+  "transaction_id": "226ba26f-b050-4fc5-aa25-b7f8169bc67b",
+  "status_message": "midtrans payment notification",
+  "status_code": "200",
+  "signature_key": "9b67a07a82d592bc493f3b775eaae5b1862a8bbaa051cdd31a0a81566c84f2c4d306fe2712c86f8167c4faa594a0e2cbe6ae898491bfaebaf849681ae92264d5",
+  "payment_type": "credit_card",
+  "order_id": "order102",
+  "masked_card": "481111-1114",
+  "gross_amount": "789000.00",
+  "fraud_status": "accept",
+  "eci": "05",
+  "currency": "IDR",
+  "channel_response_message": "Approved",
+  "channel_response_code": "00",
+  "card_type": "credit",
+  "bank": "bni",
+  "approval_code": "1566901334936"
+}
+```
+
+Refer [here on more details of how to handle HTTP Notification](https://api-docs.midtrans.com/#handing-notifications).
 
 ## Finish!
 
