@@ -3,8 +3,17 @@
 Integration process of Card Fullpayment (3DS) will be explained below.
 
 ## Overview
-Overview of the transaction flow in sequence diagram:
 
+### Sandbox Environment
+All the step is using Midtrans **Sandbox** environment, not Production, to easily test the integration process. Make sure you were switching to Sandbox mode on your [Midtrans account dashboard](https://account.midtrans.com) while retrieving Server Key and Client Key. 
+
+Server Key and Client Key can be retrieved on menu `Settings > Access Keys`
+
+### Testing Payment
+To test card transaction as a customer, please use [testing credentials described here](http://docs.midtrans.com/en/reference/test.html). Example, card for success scenario: `4811 1111 1111 1114` cvv `123` expiry `<any future date>`.
+
+### Diagram
+Overview of the transaction flow in sequence diagram:
 ![card transaction flow](./asset/image/card_transaction_3ds.png)
 .
 
@@ -21,7 +30,7 @@ Card `token_id` is representation of customer's card data, that will be used dur
 
 
 ### Include Midtrans JS
-First, include Midtrans JS library to our payment page, by adding this script tag:
+**Client Key** (from your account's [Dashboard](https://account.midtrans.com)) is required for this step. Include Midtrans JS library to our payment page, by adding this script tag:
 ```
 <script id="midtrans-script" type="text/javascript"
 src="https://api.midtrans.com/v2/assets/js/midtrans-new-3ds.min.js" 
@@ -42,7 +51,7 @@ Link: [*More detailed definition*](https://api-docs.midtrans.com/#get-token)
 To retrieve card `token_id`, we will be using `MidtransNew3ds.getCardToken` function. Implement the following Javascript on our payment page.
 
 ```javascript
-// card data
+// card data from customer input, for example
 var cardData = {
   "card_number": 4811111111111114,
   "card_exp_month": 02,
@@ -268,6 +277,13 @@ HTTP POST request with JSON body will be sent to Merchant's **notification url**
 ```
 
 Refer [here on more details of how to handle HTTP Notification](https://api-docs.midtrans.com/#handing-notifications).
+
+## Switching To Production
+
+To use Midtrans production environment (accept real payment from real customer), please make sure to:
+
+1. Switch the API domain URL from `api.sandbox.midtrans.com` to `api.midtrans.com`
+2. Switch the Client Key and Server Key from sandbox Dashboard, with keys from production Dashboard.
 
 ## Finish!
 

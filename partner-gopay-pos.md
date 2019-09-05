@@ -15,7 +15,7 @@ Overview of the transaction flow in sequence diagram:
 
 ## 1. Get QR Code Image URL
 
-Charge API request should be done from Partner's backend. **Server Key** (shared by Midtrans Business PIC) will be needed to [authenticate the request](https://api-docs.midtrans.com/#http-s-header).
+Charge API request should be done from Partner's backend. **Server Key** (given by Midtrans Business PIC) will be needed to [authenticate the request](https://api-docs.midtrans.com/#http-s-header).
 
 ### Charge API Request
 
@@ -26,7 +26,7 @@ Additionally `X-Override-Notification` HTTP header is required, in order to [spe
 ```bash
 # sample charge in CURL
 curl -X POST \
-  https://api.sandbox.midtrans.com/v2/charge \
+  https://api.midtrans.com/v2/charge \
   -H 'Accept: application/json' \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Basic <YOUR SERVER KEY ENCODED in Base64>' \
