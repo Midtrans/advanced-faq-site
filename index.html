@@ -77,6 +77,8 @@
                         let TARGET_QUERY = 'id'
                         let SCROLL_DELAY = 2000 // in milisecond
                         let location = window.location
+                        let isBrowserTabFocused = !document.hidden
+                        let browserTabFocusedCount = 0
 
                         dd&&console.log('custom scroll plugin called!')
                         let currentUrlWithoutHash = new URL(
@@ -85,18 +87,38 @@
                         )
                         let urlQueryParam = currentUrlWithoutHash.searchParams
                         let isUrlHasIdQuery = urlQueryParam.has(TARGET_QUERY)
-                        if(isUrlHasIdQuery){
-                            dd&&console.log('url has id, will scroll to element')
-                            let urlId = urlQueryParam.get(TARGET_QUERY)
+                        // abort if URL dont have ID query
+                        if(!isUrlHasIdQuery) {
+                            return
+                        }
+                        dd&&console.log('url has id')
+                        let urlId = urlQueryParam.get(TARGET_QUERY)
+                        let performDelayedScroll = function(){
                             // run delayed, to make sure everything loaded
                             setTimeout(function() {
-                                dd&&console.log('will scroll now!')
+                                dd&&console.log('will scroll to element now')
                                 try{
                                     document.querySelector('#'+urlId)
                                         .scrollIntoView()
                                 } catch(e){ dd&&console.log('custom scroll failed',e) }
                             }, SCROLL_DELAY);
                         }
+                        // only scroll after browser tab focused
+                        if(isBrowserTabFocused){
+                            performDelayedScroll()
+                            return
+                        }
+                        // if not focused, wait on focus
+                        window.addEventListener('focus', function() {
+                            browserTabFocusedCount++
+                            dd&&console.log('browser tab is focused',browserTabFocusedCount)
+                            let isBrowserFocusedFirstTime = browserTabFocusedCount<=1
+                            if(!isBrowserFocusedFirstTime){
+                                return
+                            }
+                            dd&&console.log('browser tab focused 1st time')
+                            performDelayedScroll()
+                        })
                     })
                 },
             ],
