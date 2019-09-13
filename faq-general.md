@@ -129,10 +129,41 @@ done executing verify to netcetera with response={"session_id":"00259985-2a42-41
 ```
 It means Merchant URL is required but empty, ask merchant to complete their Dashboard Config.
 
+### Using Midtrans iOS Mobile SDK, when submitting to Apple App Store merchant got warning about deprecated `UIWebView`, what to do?
+Note: Only applicable if you are using Midtrans iOS SDK, specifically under version v1.16.0
+
+Recently, Apple introduced a new App Submission warning stating that they are formally deprecating `UIWebView` in favor of `WKWebView`. We wanted to let you know that Midtrans iOS SDK has been updated to use `WKWebView` on our latest version of Midtrans iOS SDK `v1.16.0` to meet the new Apple App Submission requirement. Please ensure update to this latest version next time you plan to submit your app to App Store.
+
 ### Merchant fail to be redirected to gojek:// deeplink on mobile app, what to do?
 If merchant is using android app webview to open the deeplink url, webview need to be configured to allow open deeplink to other app 
 
-Please make sure that the webview allow opening `gojek://` deeplink protocol, by following the link ref: https://stackoverflow.com/a/32714613
+Please make sure that the webview allow opening `gojek://` deeplink protocol. 
+
+On Android please refer to: https://stackoverflow.com/a/32714613 . You need to modify your web view shouldOverrideUrlLoading functions as follows:
+```java
+ @Override
+ public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        LogUtils.info(TAG, "shouldOverrideUrlLoading: " + url);
+        Intent intent;
+
+        if (url.contains("gojek://")) {
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
+
+            return true;
+        } 
+ }
+ ```
+
+On iOS, you will need to add `LSApplicationQueriesSchemes` key to your app's `Info.plist`
+
+```xml
+<key>LSApplicationQueriesSchemes</key>
+<array>
+<string>gojek</string>
+</array>
+```
 
 ### Merchant developer encounter `javax.net.ssl.SSLHandshakeException: Received fatal alert: handshake_failure` when trying to connect to Midtrans API url, what to do?
 This usually caused by outdated Java client. Please check the Java version, web framework version, and OS version used to connect. Please make sure you are not using outdated version, and stay updated, for example if your versions are: java version 1.7, web framework version Spring 3.1  and OS version windows 7. Please update. Java version 7 are no longer officially supported by Oracle (https://java.com/en/download/faq/java_7.xml ). Other than that Spring & OS version is also outdated. Using outdated platforms make your system vulnerable to security threats, which is not a suitable environment for handling payments.
