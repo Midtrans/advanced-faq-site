@@ -1,42 +1,46 @@
-# Card Payment Integration
+## Card Payment Integration
 
-Integration process of Card Fullpayment (3DS) will be explained below.
-
-## Overview
+Basic integration process of Card Fullpayment (3DS) will be explained below.
 
 ### Sandbox Environment
-All the step is using Midtrans **Sandbox** environment, not Production, to easily test the integration process. Make sure you were switching to Sandbox mode on your [Midtrans account dashboard](https://account.midtrans.com) while retrieving Server Key and Client Key. 
+All the steps below are using Midtrans **Sandbox** environment, not Production, to easily test the integration process. Make sure you are switching to Sandbox mode on your [Midtrans account dashboard](https://account.midtrans.com) while retrieving Server Key and Client Key. Explained in [Getting Started - Preparation](https://docs.midtrans.com/en/welcome/preparation.html#step3)
 
 Server Key and Client Key can be retrieved on menu `Settings > Access Keys`
 
 ### Testing Payment
-To test card transaction as a customer, please use [testing credentials described here](http://docs.midtrans.com/en/reference/test.html). Example, card for success scenario: `4811 1111 1111 1114` cvv `123` expiry `<any future date>`.
+To test card transaction as a customer, please use [testing credentials described here](http://docs.midtrans.com/en/reference/test.html). Example, card for success scenario: 
+
+~~~
+Card Number: 4811 1111 1111 1114 
+CVV: 123 
+Expiry: <any future date>
+~~~
 
 ### Diagram
 Overview of the transaction flow in sequence diagram:
 ![card transaction flow](./asset/image/card_transaction_3ds.png)
 .
+<br><br>
 
 ## Integration Step
 1. Get card token, via frontend.
 2. Send transaction data to API Charge using card token, via backend.
 3. (Conditional) if transaction is 3DS, open 3DS redirect_url with popup/redirect, via frontend.
-4. Handle notification, on backend.
+4. Handle transaction notification, on backend.
+<br><br>
 
 ## 1. Get Card Token
 Card `token_id` is representation of customer's card data, that will be used during a transaction. `token_id` should be retrieved using [MidtransNew3ds JS library](https://api.midtrans.com/v2/assets/js/midtrans-new-3ds.min.js) on merchant's website frontend, card data will be securely transmitted by frontend javascript to Midtrans API in exchange of card `token_id`, to avoid risk involved if card data being transmitted to merchant's backend.
 
-> **Note:** This `token_id` is only valid for 1 transaction. For each time card transaction, this step should be re-performed. To persist/save card token, please use **One-click/Two-click** feature.
-
-
 ### Include Midtrans JS
 **Client Key** (from your account's [Dashboard](https://account.midtrans.com)) is required for this step. Include Midtrans JS library to our payment page, by adding this script tag:
-```
+
+~~~html
 <script id="midtrans-script" type="text/javascript"
 src="https://api.midtrans.com/v2/assets/js/midtrans-new-3ds.min.js" 
 data-environment="sandbox" 
 data-client-key="<INSERT YOUR CLIENT KEY HERE>"></script>
-```
+~~~
 
 **Important**: Change the following attributes.
 
@@ -50,7 +54,7 @@ Link: [*More detailed definition*](https://api-docs.midtrans.com/#get-token)
 ### Get Card Token JS Implementation
 To retrieve card `token_id`, we will be using `MidtransNew3ds.getCardToken` function. Implement the following Javascript on our payment page.
 
-```javascript
+~~~javascript
 // card data from customer input, for example
 var cardData = {
   "card_number": 4811111111111114,
@@ -69,17 +73,21 @@ var options = {
   },
   onFailure: function(response){
     // Fail to get card token_id, implement as you wish here
-    console.log('Success to get card token_id, response:', response);
+    console.log('Fail to get card token_id, response:', response);
   }
 };
 
 // trigger `getCardToken` function
 MidtransNew3ds.getCardToken(cardData, options);
-```
+~~~
 
 If all goes well, we will be able to get card `token_id` inside `onSuccess` callback function. It will be used as one of JSON parameter for `/charge` API request.
 
-Note: `token_id` will need to be passed from frontend to backend for next step, it can be done using AJAX via Javascript, or html form POST, etc. Merchant are free to implement.
+`token_id` will need to be passed from frontend to backend for next step, it can be done using AJAX via Javascript, or html form POST, etc. Merchant are free to implement.
+
+> **Note:** This `token_id` is only valid for 1 transaction. For each card transaction it is required to go through this process, to help ensure card data is transmitted securely. If you are looking to persist/save card token, you may use [One-click](https://api-docs.midtrans.com/#card-features-one-click)/[Two-clicks](https://api-docs.midtrans.com/#card-features-two-clicks) feature.
+
+<br><br>
 
 ## 2. Send Transaction Data to API Charge
 
@@ -88,7 +96,7 @@ Charge API request should be done from Merchant's backend. **Server Key** (from 
 ### Charge API request
 This is example of `/charge` API request in Curl, please implement according to your backend language (you can also check our available [language libraries](http://docs.midtrans.com/en/welcome/pluginlibrary.html)). Input `token_id` retrieved previously.
 
-```bash
+~~~bash
 # sample charge in CURL
 curl -X POST \
   https://api.sandbox.midtrans.com/v2/charge \
@@ -106,26 +114,28 @@ curl -X POST \
     "authentication": true,
   }
 }'
-```
+~~~
 
 Optional: we can customize `credit_card` object for other [advanced features](https://api-docs.midtrans.com/#credit-card). For example:
-```bash
+
+~~~javascript
 ...
   "credit_card": {
     "token_id": "<token_id from Get Card Token Step>",
-    "authentication": true, //set true for 3DS, false for non 3DS
+    "authentication": true, //set true for 3DS, false if you have non 3DS acquiring
     "save_token_id": true //optional, to use one/two click feature
     "installment_term": 12, //optional, to allow installment
     "bank": "bca", //optional, to specify acquiring bank
   }
 ...
-```
+~~~
 
 Optional: we can customize [transaction_details data](https://api-docs.midtrans.com/#json-object). To include data like customer_details, item_details, etc. It's recommended to send as much detail so on report/dashboard those information will be included.
 
 ### Charge API response
 We will get the **API response** like the following.
-```javascript
+
+~~~
 {
   "status_code": "201",
   "status_message": "Success, Credit Card transaction is successful",
@@ -142,20 +152,22 @@ We will get the **API response** like the following.
   "bank": "bni",
   "card_type": "credit"
 }
-```
+~~~
 
-If the `transaction_status` is `capture` and `fraud_status` is `accept`, it means the transaction is non 3DS, success, and is now complete.
+- If the `transaction_status` is `capture` and `fraud_status` is `accept`, require no 3DS, and is successfuly complete.
 
-If the `transaction_status` is `pending` and `redirect_url` exists, it means the transaction is 3DS, and we will need to proceed to next step, opening 3DS authentication page.
+- If the `transaction_status` is `pending` and `redirect_url` exists, it means the transaction require 3DS, and we will need to proceed to next step, opening 3DS authentication page.
+<br><br>
 
 ## 3. Open 3DS Authentication Page
 
 As part of API response, we now have `redirect_url`. It should be opened (displayed to customer) using [MidtransNew3ds JS library](https://api.midtrans.com/v2/assets/js/midtrans-new-3ds.min.js) on merchant's website frontend.
 
-To open 3DS page we can use `MidtransNew3ds.authenticate` or `MidtransNew3ds.redirect` function. Input `redirect_url` retrieved previously.
+To open 3DS page we can use `MidtransNew3ds.authenticate` or `MidtransNew3ds.redirect` function. Input the `redirect_url` retrieved previously.
 
 ### Open 3DS Authenticate Page JS Implementation
-```javascript
+
+~~~javascript
 var redirect_url = '<redirect_url Retrieved from Charge Response>';
 
 // callback functions
@@ -216,12 +228,12 @@ var popupModal = (function(){
  * you can also redirect customer using: 
  * MidtransNew3ds.redirect(redirect_url, { callbackUrl : 'https://mywebsite.com/finish_3ds' });
  **/
-```
+~~~
 
 ### 3DS Authenticate JSON Response
-On the JS callback function, we will get JS object (JSON) of the transaction result like below.
+On the JS callback function, we will get JSON of the transaction result like below.
 
-```javascript
+~~~
 {
   "status_code": "200",
   "status_message": "Success, Credit Card transaction is successful",
@@ -241,11 +253,13 @@ On the JS callback function, we will get JS object (JSON) of the transaction res
   "channel_response_code": "00",
   "channel_response_message": "Approved"
 }
-```
+~~~
 
 If the `transaction_status` is `capture` and `fraud_status` is `accept`, it means the transaction is success, and is now complete.
 
 > **IMPORTANT NOTE:** To update transaction status on your backend/database, DO NOT solely rely on frontend callbacks! For security reason to make sure the status is authentically coming from Midtrans, only update transaction status based on HTTP Notification or [API Get Status](https://api-docs.midtrans.com/#get-transaction-status).
+
+<br><br>
 
 ## 4. Handle HTTP Notification
 
@@ -253,7 +267,7 @@ HTTP notification from Midtrans to Merchant backend will also be triggered on ev
 
 HTTP POST request with JSON body will be sent to Merchant's **notification url** configured on [dashboard](https://account.midtrans.com) (Settings > Configuration > Notification URL), this is the sample JSON body that will be received by Merchant:
 
-```javascript
+~~~
 {
   "transaction_time": "2019-08-27 17:22:08",
   "transaction_status": "capture",
@@ -274,9 +288,10 @@ HTTP POST request with JSON body will be sent to Merchant's **notification url**
   "bank": "bni",
   "approval_code": "1566901334936"
 }
-```
+~~~
 
 Refer [here on more details of how to handle HTTP Notification](https://api-docs.midtrans.com/#handing-notifications).
+<br><br>
 
 ## Switching To Production
 
@@ -284,10 +299,12 @@ To use Midtrans production environment (accept real payment from real customer),
 
 1. Switch the API domain URL from `api.sandbox.midtrans.com` to `api.midtrans.com`
 2. Switch the Client Key and Server Key from sandbox Dashboard, with keys from production Dashboard.
+<br><br>
 
-## Finish!
+## Done
 
 The card payment integration guide is now complete. Below are some further references.
+<br><br>
 
 ## Description
 
@@ -296,8 +313,9 @@ The card payment integration guide is now complete. Below are some further refer
 | Transaction Status | Description |
 | ------------------ | ----------- |
 | `capture` | Transaction successful, fund has been deducted |
-| `pending` | Transaction is waiting for further action (3DS) |
+| `pending` | Transaction is initiated and waiting for further action (3DS by customer) |
 | `deny` | Transaction is denied, further check `channel_response_message` or `fraud_status` |
+| `expire` | Transaction failure because customer did not complete 3DS within allowed time |
 
 Link: [*More detailed definition of transaction_status*](https://api-docs.midtrans.com/#transaction-status)
 
@@ -306,8 +324,9 @@ Link: [*More detailed definition of fraud_status*](https://api-docs.midtrans.com
 #### Reference
 
 You can also refer to this sample implementation:
-- https://github.com/Midtrans/midtrans-nodejs-client/blob/master/examples/expressApp/views/simple_core_api_checkout.ejs
-- https://github.com/Midtrans/midtrans-python-client/blob/master/examples/flask_app/templates/simple_core_api_checkout.html
+
+- [NodeJs - Express](https://github.com/Midtrans/midtrans-nodejs-client/blob/master/examples/expressApp/views/simple_core_api_checkout.ejs)
+- [Python - Flask](https://github.com/Midtrans/midtrans-python-client/blob/master/examples/flask_app/templates/simple_core_api_checkout.html)
 
 [Or please refer to this demo](https://anice.win/3ds_new/)
 - [Which source code is available here](https://gist.github.com/rizdaprasetya/9d16893578d600a03075939ef74c5c1f)
