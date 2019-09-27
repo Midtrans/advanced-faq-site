@@ -316,6 +316,16 @@ In Midtrans, we are following [Google JSON Style Guide](https://google.github.io
 
 So yes it is expected to have few missing JSON field/attribute, it means the value is `null` for that field/attribute. Please adjust your implementation accordingly to accomodate this behaviour.
 
+### How to make sure card transaction is 3DS on iOS
+Make sure to use these config on the client code:
+
+```
+ CC_CONFIG.secure3DEnabled = YES;
+ CC_CONFIG.authenticationType = MTAuthenticationType3DS;
+```
+
+Also remove `CC_CONFIG.acquiringBank` if you don't need to specify any bank. 
+
 ### Why on iOS device Gopay deeplink is taking customer to different app and not Gojek?
 Some apps might interfere with `gojek://` app deeplink url and taking over customer to their app. This behavior is caused by the app, if you find this keep happening please report the intefering app to us and Gojek team will raise the issue to iOS app store for further investigation. As temprorary please inform customer to uninstall the app that causing the interference.
 
