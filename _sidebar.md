@@ -14,8 +14,7 @@
 	- [Python](/gh/Midtrans/midtrans-python-client/master/README.md)
 	- [Go](/gh/veritrans/go-midtrans/master/README.md)
 	- [Ruby](/gh/veritrans/veritrans-ruby/master/README.md)
-	- [PHP](/gh/veritrans/veritrans-php/master/README.md)
+	- [PHP](/gh/Midtrans/midtrans-php/master/README.md)
+	- [Java](/gh/Midtrans/midtrans-java/master/README.md)
 	- [Postman Collection](/gh/Midtrans/Midtrans-Payment-API-Postman-Collections/master/readme.md)
-- **:electric_plug: Integration Plugins Docs**
-	- [Wordpress Woocommerce](/gh/veritrans/SNAP-Woocommerce/master/README.md)
-	- [Wordpress EDD](/gh/Midtrans/midtrans-edd/master/README.md)
+- **[:electric_plug: Integration Plugins](http://docs.midtrans.com/en/welcome/pluginlibrary.html#plugin-for-snap)**

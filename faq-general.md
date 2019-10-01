@@ -245,6 +245,21 @@ In the very rare case of Gopay system already deduct customer’s Gopay but havi
 
 If the customer wish to proceed transaction, please create new transaction.
 
+### When can I refund GoPay transaction?
+After transaction is settlement. You can instantly refund it, up to maximum of 45 day after settlement.
+
+There is fund related limitation though, you can only refund if your Midtrans account have sufficient payable amount on it. Usually a transaction become payable within 5 days or less (depend on business agreement, please check with @sandy). This is to prevent refund exceeding the total amount received.
+
+So for example you received a transaction worth IDR 100K, and IDR 0 payable today, you can't immediately refund. Then after 5 days, let's say your payable already increased to IDR 100K, you can refund any number of transactions as long it does not exceed that payable amount.
+
+### Merchant/Customer tried failure payment scenario on E-Wallet transaction, but transaction status does not updated to failure?
+
+If you as merchant are declining payment, via API `/cancel` the transaction status will become failure.
+
+But if customer is trying to pay then it fails within the E-Wallet app, they have chance to for example topup their E-Wallet and retry the payment. It is expected that the status will remain as `pending`. Until it eventually become `settlement` or `expire` because of time limit.
+
+So E-Wallet may contains the failure within their own app and does not emmit failures to merchant/Midtrans, in order to give customer chance for retries. From business perspective it also increase your payment success rate and may increase revenue.
+
 ### How to use Core API **register card** endpoint from frontend?
 Please follow [this demo](https://gist.githack.com/rizdaprasetya/cecce986cb3c71ca0ec1a404d3063105/raw/4fadc5e425b4ddc770a005e33383fd1a8e481134/index.html ':include :type=iframe width=100% height=400px')
 
