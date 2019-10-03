@@ -315,11 +315,16 @@ Please refer to below sequence diagram,
 
 **Deeplink Mode**:
 
-![Gopay Deeplink flow](./asset/image/gopay_coreapi-deeplink.png)
+![Gopay Deeplink flow](./asset/image/gopay_coreapi_deeplink.png)
 
 **QR Mode**:
 
 ![Gopay QR flow](./asset/image/gopay_coreapi_qr.png)
+
+### Can you explain the flow of Bank Transfer / VA transaction?
+Please refer to below sequence diagram:
+
+![Bank Transfer VA flow](./asset/image/va_coreapi.png)
 
 ### Merchant updated iOS SDK from v1.14.7 and below, but old implementation did not work after update. How to resolve it?
 
