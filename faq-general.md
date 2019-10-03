@@ -326,10 +326,17 @@ Please refer to below sequence diagram,
 - Older SDK require config of `CC_CONFIG.secure3DEnabled = ...`, newer SDK no longer requires it, please remove that config. Then add this config `CC_CONFIG.authenticationType = MTAuthenticationType3DS`
 - Please make sure that your backend/merchant-server will also accept that changes. Older SDK will generate request that have JSON keys `"secure" : true`, newer SDK will have `"authentication" : "3ds"`. Make sure there are no type checking or similar that are rejecting the JSON.
 
-### There are some missing field/attributes on the JSON response/notification, it seems the JSON is not consistent, is this expected? 
+### There are some missing field/property on the JSON response/notification, it seems the JSON is not consistent, is this expected? 
 In Midtrans, we are following [Google JSON Style Guide](https://google.github.io/styleguide/jsoncstyleguide.xml). According to the style guide it is recommended if a property doesn't have any value (`null`) then it should be removed. Reference: https://google.github.io/styleguide/jsoncstyleguide.xml#Empty/Null_Property_Values
 
-So yes it is expected to have few missing JSON field/attribute, it means the value is `null` for that field/attribute. Please adjust your implementation accordingly to accomodate this behaviour.
+So yes it is expected to have few missing JSON field/property, it means the value is `null` for that field/property. Please adjust your implementation accordingly to accomodate this behaviour.
+
+### There are new field/property added on the JSON response/notification, it break merchant implementation, is this expected?
+Yes it is expected.
+
+To ensure "forward compatibility", as JSON based API common practice, please allow new fields/properties to be added on JSON based API communication, thus including API response and HTTP notification. Ensure your backend are able to ignore and does not break when encountering new fields/properties. Depends on JSON parser library you are using, those parser usually have `JsonIgnoreProperties` flag or similar that can be utilized.
+
+Please adjust your implementation accordingly to accomodate this behaviour.
 
 ### How to make sure card transaction is 3DS on iOS
 Make sure to use these config on the client code:
