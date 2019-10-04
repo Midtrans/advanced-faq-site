@@ -171,6 +171,11 @@ This usually caused by outdated Java client. Please check the Java version, web 
 ### Merchant developer use React JS frontend framework, and unable to use midtrans.min.js / snap.js, what to do?
 Please be aware that React does play nicely with regular JS library inside `<script>` tag. Both are same frontend based JS anyway, so they can still access each other. So include the midtrans.min.js / snap.js as `<script>`. `Veritrans` object still available as global `window.Veritrans` object inside react. `Snap` object still available as global `window.Snap` object inside react. Please refer to https://github.com/facebook/create-react-app/issues/3007#issuecomment-357863643 
 
+### Merchant tried to send request to Midtrans API, but always get blocked by CORS Policy on the browser, what's the issue?
+For now that is expected you will get CORS issue when calling `/transactions` endpoint from frontend (at least until our Snap API team decided to allow CORS). Please send the API request securely from backend.
+
+Because for security purpose, **you should not call API which require Server Key authorization from Frontend**. You are in risk of exposing your Server Key to public (which should be kept secret). Server Key on frontend code are easily accessible from client side. Server Key should be used from backend (server). You can send the frontend HTTP request to your backend first, which your backend should securely add the Authorization header, then send the request to the API.
+
 ### Customer complains the refund is not yet received, but on Midtrans Dashboard the status has already `refund`, can you check?
 Unfortunately, access to fund status checking is not granted to Tech Support Team, we can only check the status technical wise. The actual fund checking will need to be inquired to Business Operations Team (which may reconcile with Go-Pay team as needed). To ensure you have correct point of contact and faster response regarding fund status, please follow below steps:
 
@@ -241,7 +246,7 @@ For Core API payment product:
 Integration is API based, so deeplink/QR url can be retrieved by merchant directly as API response and can be stored by merchant however they like.
 
 ### Why is customer Gopay deducted while the transaction recorded as failure/expire on Midtrans Dashboard?
-In the very rare case of Gopay system already deduct customer’s Gopay but having technical issues that result in failure to notify Midtrans (and Merchant) about the transaction status, Gopay system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Merchant-Midtrans-Gopay to failure state. Merchant can always refer to status on Midtrans, as the most accurate (and final) status. Merchant may advise customer to re-check their Gopay balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on Gopay internal process. If customers still does not receive any refund, Merchant can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount.
+In the very rare case of Gopay system already deduct customer’s Gopay but experiencing issues that may result in failure to notify Midtrans (and Merchant) about the transaction status, Gopay system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Merchant-Midtrans-Gopay to failure state. Merchant can always refer to status on Midtrans, as the most accurate (and final) status. Merchant may advise customer to re-check their Gopay balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on Gopay internal process. If customers still does not receive any refund, Merchant can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount.
 
 If the customer wish to proceed transaction, please create new transaction.
 
