@@ -245,6 +245,22 @@ Payment UI is managed by Midtrans
 For Core API payment product:
 Integration is API based, so deeplink/QR url can be retrieved by merchant directly as API response and can be stored by merchant however they like.
 
+### Can merchant force Snap to always show deeplink or QR for Gopay transaction?
+Yes, Snap can be configured to specifically show QR, deeplink, or automatically guess the device type. On `snap.js`, there is option `options.gopayMode` that can be used by Merchant. To configure Snap to always show QR for example,
+
+If using `snap.js` popup mode, add `gopayMode` on second parameter when calling `snap.pay`:
+```javascript
+snap.pay('<SNAP_TRANSACTION_TOKEN>', {
+  gopayMode: "qr" 
+  // possible value gopayMode: `qr`, `deeplink`, `auto`
+})
+```
+
+If using Snap's `redirect_url`, append `?gopayMode=deeplink` after the url:
+```
+https://app.midtrans.com/snap/v2/vtweb/c9e25cd7-1b89-4fc9-8cb8-ab0342eac21f?gopayMode=qr
+```
+
 ### Why is customer Gopay deducted while the transaction recorded as failure/expire on Midtrans Dashboard?
 In the very rare case of Gopay system already deduct customer’s Gopay but experiencing issues that may result in failure to notify Midtrans (and Merchant) about the transaction status, Gopay system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Merchant-Midtrans-Gopay to failure state. Merchant can always refer to status on Midtrans, as the most accurate (and final) status. Merchant may advise customer to re-check their Gopay balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on Gopay internal process. If customers still does not receive any refund, Merchant can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount.
 
@@ -283,6 +299,28 @@ Things to do:
 - Make sure that on backend / 3# you have config the correct serverKey and API endpoint to correct sandbox config.
 - Incase the issue persists, please share any error messages recorded on log, either from the Mobile or backend.
 - Check the backend log to see if it's able to get API response from Snap API, sometime API can reject invalid request. Provide the log to us if needed to check. Or at least the order_id of transaction, so we can crosscheck it with our API log.
+
+### Can merchant set enabled payments list on Android SDK?
+It is recommended to define `enabled_payments` JSON field on merchant server (backend), during API request to Midtrans Snap API.
+
+Alternatively, merchant can define enablePayment object as List
+```
+List<String> enabledPaymentList = new ArrayList<>();
+```
+and set to transactionRequest object with method `setEnablePayments(enabledPaymentList)`
+example code:
+```java
+List<String> enabledPaymentList = new ArrayList<>();
+enabledPaymentList.add("gopay");
+enabledPaymentList.add("credit_card");
+
+final UUID idRand = UUID.randomUUID();
+TransactionRequest transactionRequest = new TransactionRequest(idRand.toString(), 200000);
+transactionRequest.setEnabledPayments(enabledPaymentList);
+
+midtransSDK.setTransactionRequest(transactionRequest);
+midtransSDK.startPaymentUiFlow(CONTEXT);
+```
 
 ### Can you explain the implementation details of Credit Card 3DS transaction?
 
