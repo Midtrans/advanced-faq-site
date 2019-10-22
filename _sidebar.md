@@ -9,6 +9,8 @@
 - **Misc**
 	- POS Partner
 		- [GoPay Integration](partner-gopay-pos.md)
+	- Ecommerce Platform
+		- [Shopify Integration](shopify-guide.md)
 - **:wrench: Integration Library Docs**
 	- [Node JS](/gh/Midtrans/midtrans-nodejs-client/master/README.md)
 	- [Python](/gh/Midtrans/midtrans-python-client/master/README.md)
