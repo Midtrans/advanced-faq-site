@@ -67,12 +67,19 @@ Reason of denied credit card transaction can be checked on merchant Dashboard, o
 If the customer is trusted and Merchant wish to whitelist the customer, please provide the list of customer emails and send the request as email to operations.fraud@midtrans.com
 
 ### Customer card denied by bank / blocked on OTP page, customer asked the bank, the bank tell customer that the card is having no issue. What should merchant do?
-If the card is blocked within the OTP/3ds page of the card issuer/bank. Customer should contact card issuer/bank call center. Customer should provide the screenshot/message of the 3DS page issue to card issuer/bank. Some card issuer/bank might mistakenly check only if the card have offline payment issue or not, they might not check from online/3DS perspective whether it’s able to transact online or not. customer should mention they are unable to pay on 3DS enabled online merchant, so the call center can understand.
+If the card is blocked within the OTP/3ds page of the card issuer/bank. Customer should contact card issuer/bank call center. Customer should provide the screenshot/message of the 3DS page issue to card issuer/bank. Please note that some card issuer/bank might mistakenly check only if the card have offline payment issue or not, they might not check from online/3DS perspective whether it’s able to transact online or not. customer should mention they are unable to pay on 3DS enabled online merchant, so the call center can understand.
 
-Payment Gateway unfortunately can’t do much about it, because the block happen on Card Issuer (and their network) side. Customer should explain the issue to Card Issuer.
+Payment Gateway unfortunately have no direct control over the issue, because the block happen on Card Issuer (and their network) side. Customer should explain the issue to Card Issuer.
+
+### Customer stuck on 3DS / OTP screen. What is happening?
+3DS / OTP page is directly served by card issuer/bank's website. The issue is very likely caused by the issue, downtime or maintenance on the website.
+
+Customer should contact card issuer/bank call center. Customer should provide the screenshot/message of the 3DS page issue to card issuer/bank. Please note that some card issuer/bank might mistakenly check only if the card have offline payment issue or not, they might not check from online/3DS perspective whether it’s able to transact online or not. customer should mention they are unable to pay on 3DS enabled online merchant, so the call center can understand.
+
+Payment Gateway unfortunately have no direct control over the issue, because the issue happen on Card Issuer (and their network) side. Customer should explain the issue to Card Issuer.
 
 ### Customer does not receive 3DS / OTP, so he can’t proceed with payment or can proceed but transaction become non 3DS. What’s the issue? What should merchant do?
-In case of OTP not received by customer, the issue is between card issuer’s (bank’s) 3DS (OTP) page and the customer phone. This can be caused because for example:
+In case of OTP could not be received by customer, the issue is between card issuer’s (bank’s) 3DS (OTP) page and the customer phone. This can be caused because for example:
 - Card issuer 3DS page is currently down / under maintenance, 
 - Card is blocked by card issuer because fraud attempt or incorrect OTP submitted too many times, 
 - Customer phone is unreachable by the SMS service, customer phone don’t have enough credit to receive SMS, etc,
@@ -322,6 +329,38 @@ midtransSDK.setTransactionRequest(transactionRequest);
 midtransSDK.startPaymentUiFlow(CONTEXT);
 ```
 
+### Merchant is using Android SDK, but transaction is failing because 3DS is not enabled, what is wrong?
+If merchant is creating Snap transaction token via Backend and try to start payment screen with Android SDK, there is known issue, which Android SDK may override the transaction as non 3DS.
+
+As workaround try to implement these code before `startPaymentUiFlow` :
+```java
+// create CreditCard config object and set as 3DS enabled
+CreditCard creditCard = new CreditCard();
+creditCard.setAuthentication(Authentication.AUTH_3DS);
+
+// create dummy transaction request to attach CreditCard config
+TransactionRequest transactionRequest = new TransactionRequest("",0);
+transactionRequest.setCreditCard(creditCard);
+// apply the config to SDK
+midtransSDK.setTransactionRequest(transactionRequest);
+// start the payment UI
+midtransSDK.startPaymentUiFlow(this, YOUR_TRANSACTION_TOKEN_FROM_BACKEND);
+```
+
+Another symptom of the issue: 
+Merchant may encounter card payment success on Sandbox but fail on Production. This is because the transaction is non 3DS, Sandbox account by default allow 3DS and non 3DS transaction, while on Production bank may allow only 3DS transaction for their account.
+
+### Does Midtrans support Flutter, React Native, or other hybrid / non-native mobile framework?
+Midtrans does not directly provide official SDK for hybrid mobile framework, because currently we focus on supporting native Android & iOS experience via our [Mobile SDK](https://mobile-docs.midtrans.com).
+
+Rest assured, our payment products are compatible to be used on Flutter, React Native, or other hybrid mobile framework platform. Some of our merchant have been able to do so.
+
+The simplest and easiest method is to utilize **webview** (or similar method to display HTML page), developer can display (via webview) the HTML page of Snap payment (HTML which utilize snap.js).
+
+So developer need to setup web page which integrated with snap.js to display payment, and use webview within the app to display it as payment page.
+
+Alternatively developer can also utilize Core API, which is JSON-based REST API, that should be able to be integrated on virtually any framework/platform.
+
 ### Can you explain the implementation details of Credit Card 3DS transaction?
 
 Please refer to this sample implementation:
@@ -419,6 +458,31 @@ Because behind the scene `other_va` will need to utilize BNI or Permata VA for t
 Please enable network logging using:
 ```[[MidtransNetworkLogger shared] startLogging];```
 You can provide us the network log result for any issue.
+
+### Can Midtrans show/deduct MDR directly to customer during payment?
+Business and regulation wise, MDR as the name suggest, Merchant Discount Rate is merchant responsibility to the payment provider (bank / card network principal). MDR should be charged to merchant, not customer. So it should not be directly charged to customer. 
+
+However merchant may manage on their own the fee charged to customer, based on that. Merchant may define additional service fee or include it to the final item price to customer. 
+
+Technical wise, for example merchant can add fee as additional `item_details` when requesting payment to Midtrans API. e.g:
+```json
+...
+"item_details": [
+  {
+    "id": "ITEM1",
+    "price": 7000,
+    "quantity": 2,
+    "name": "Apple Fruit"
+  },
+  {
+    "id": "miscfee",
+    "price": 250,
+    "quantity": 1,
+    "name": "Service Fee"
+  }
+]
+...
+```
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
