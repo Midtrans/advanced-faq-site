@@ -1,4 +1,4 @@
-## FAQ Credit Card Transaction
+## Credit Card Transaction Flow
 
 ### Can you explain the implementation details of Credit Card 3DS transaction?
 

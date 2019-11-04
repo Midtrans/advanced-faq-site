@@ -141,10 +141,12 @@ Note: Only applicable if you are using Midtrans iOS SDK, specifically under vers
 
 Recently, Apple introduced a new App Submission warning stating that they are formally deprecating `UIWebView` in favor of `WKWebView`. We wanted to let you know that Midtrans iOS SDK has been updated to use `WKWebView` on our latest version of Midtrans iOS SDK `v1.16.0` to meet the new Apple App Submission requirement. Please ensure update to this latest version next time you plan to submit your app to App Store.
 
-### Merchant fail to be redirected to gojek:// deeplink on mobile app, what to do?
+### Customer fail to be redirected to gojek:// deeplink on mobile app, what to do?
 If merchant is using android app webview to open the deeplink url, webview need to be configured to allow open deeplink to other app 
 
 Please make sure that the webview allow opening `gojek://` deeplink protocol. 
+
+**Android**
 
 On Android please refer to: https://stackoverflow.com/a/32714613 . You need to modify your web view shouldOverrideUrlLoading functions as follows:
 ```java
@@ -163,6 +165,8 @@ On Android please refer to: https://stackoverflow.com/a/32714613 . You need to m
  }
  ```
 
+**iOS**
+
 On iOS, you will need to add `LSApplicationQueriesSchemes` key to your app's `Info.plist`
 
 ```xml
@@ -171,6 +175,59 @@ On iOS, you will need to add `LSApplicationQueriesSchemes` key to your app's `In
 <string>gojek</string>
 </array>
 ```
+
+**React Native**
+
+On React Native try whitelisting the deeplink via the `originWhitelist`, for example:
+
+```
+<WebView
+    {...this.props}
+    bounces={false}
+    originWhitelist={["https://*", "http://*", "gojek://*"]}
+    allowFileAccess={true}
+    domStorageEnabled={true}
+    javaScriptEnabled={true}
+    geolocationEnabled={true}
+    saveFormDataDisabled={true}
+    allowFileAccessFromFileURLS={true}
+    allowUniversalAccessFromFileURLs={true}
+  />
+```
+If it doesn't work try `onShouldStartLoadWithRequest`, for example:
+
+```
+<WebView
+    ...
+    onShouldStartLoadWithRequest={this.openExternalLink}
+    ...
+  />
+```
+
+then implement function to handle `gojek://`, for example:
+
+```javascript
+import { WebView, Linking } from 'react-native';
+
+openExternalLink= (req) => {
+  const isHTTPS = req.url.search('https://') !== -1;
+
+  if (isHTTPS) {
+    return true;
+  } else {
+    if (req.url.startsWith("gojek://")) {
+      return Linking.openURL(req.url);
+    } 
+    return false;
+  }
+}
+```
+or try these references:
+- https://facebook.github.io/react-native/docs/linking#opening-external-links
+- https://stackoverflow.com/questions/54248411/react-native-deep-link-from-within-webview
+- https://stackoverflow.com/questions/56800122/err-unknown-url-scheme-on-react-native-webview
+- https://stackoverflow.com/questions/35531679/react-native-open-links-in-browser
+
 
 ### Merchant developer encounter `javax.net.ssl.SSLHandshakeException: Received fatal alert: handshake_failure` when trying to connect to Midtrans API url, what to do?
 This usually caused by outdated Java client. Please check the Java version, web framework version, and OS version used to connect. Please make sure you are not using outdated version, and stay updated, for example if your versions are: java version 1.7, web framework version Spring 3.1  and OS version windows 7. Please update. Java version 7 are no longer officially supported by Oracle (https://java.com/en/download/faq/java_7.xml ). Other than that Spring & OS version is also outdated. Using outdated platforms make your system vulnerable to security threats, which is not a suitable environment for handling payments.
@@ -483,6 +540,21 @@ Technical wise, for example merchant can add fee as additional `item_details` wh
 ]
 ...
 ```
+
+### Merchant is using Midtrans' Shopify integration, sometimes item stock quantity become negative (item oversell), what happened?
+
+This behaviour can happen on some specific case if the item stock is low, and there are multiple customers trying to checkout the same item (usually during promo / flash sale period). If the order is not yet paid, the stock quantity is not yet reserved for that customer. When multiple customer pay their orders within short time, all of the orders can be accepted on Shopify side, causing negative stock quantity. This case happens due to the limitation of Shopify platform integration model with external payment gateway.
+
+For now there are no work around of this behaviour, and Shopify team confirm it as expected behaviour.
+
+The explanation from Shopify Technical Merchant Support Team can be referred below:
+
+> This is actually expected behaviour for an offsite gateway. Because of the way these gateways interact with Shopify, we're currently unable to apply our Cart Hold Policy. 
+This stock discrepancy occurs because once the request to move to the gateway is triggered in the checkout we check for available stock. If stock is available, then we permit the customer to proceed to the transaction externally to the Shopify checkout. 
+However if it’s the case where multiple orders come in at once, they all have the ability of making it to the external gateway provided there is still at least 1 stock available when they click Complete Payment, this is because we can't decrement inventory levels until the initial customer has returned from the gateway with a successful transaction. 
+Then because other customers were permitted to proceed to the gateway, any successful transactions they place will also decrement inventory even if it's already at zero due to the fact there was still at least one in stock when they began payment and the order was permitted to proceed. 
+
+> It is a factor that our support developers are working on and they're constantly testing for a new method of offsite gateways integrating with our inventory services, but as it currently stands this is something that can happen with use of an external payment gateway which is not directly connected to an online checkout
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
