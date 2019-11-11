@@ -279,7 +279,16 @@ All the data transmission coming from customer device to Midtrans should be encr
 In order to ensure the customer-to-midtrans encryption are properly implemented, merchants are required to use official Midtrans provided javascript library for card transaction (midtrans.min.js, snap.js, or Mobile SDK) and strictly prohibited to record card credentials to their own system, unless PCI DSS certified. 
 If you have proof of how a 3rd party can possibly break this security, feel free to contact us, we will connect you to our Infosec team.
 
-Some auditors may see credentials transmitted in plain text, it is because the audit happen on the customer device itself. So ofcourse the data are visible from customer device. Auditor should try to check from non customer device, for example from network layer as 3rd party between midtrans and customer. Auditor will see the data is encrypted from 3rd party.
+Some auditors may see credentials transmitted in plain text, it is because the audit happen on the customer device itself. So ofcourse the data are expected to be visible from customer device. Auditor should try to check from non customer device, for example from network layer as 3rd party between midtrans and customer. Auditor will see the data is encrypted from 3rd party.
+
+Additionally HTTPs GET method encrypt any GET query / request credentials (via TLS/HTTPS), it may expose the destination web domain to proxy, but **will not** expose any parameter.
+
+### Merchant have reported that the transaction amount on the Snap pop up can be tampered/modified/changed from customer side, is it safe?
+Amount that may be tampered/modified on Snap is strictly only on the front-end side. Back-end wise you can check on the Midtrans Dashboard that the amount remain the original value, and amount being charged to customer by bank is also still the original value.
+
+Tampering on the front-end side is common things and can possibly done via Browser Dev Tools like inspect-element tool, and only affect the front-end of that specific customer. Which does not posses any potential risk and is outside of Midtrans or Merchant control. 
+
+If you have proof of how this can possibly posses significant risk, feel free to contact us, we will connect you to our Infosec team.
 
 ### Merchant is using Gopay `callback_url` but customer does not redirected to expected url/deeplink what is wrong?
 For Gopay transaction, merchant can specify `callback_url`, customer will be redirected to `callback_url` after attempting Gopay payment within GOJEK app, wether the result is failure or success. If customer did not get redirected properly, please check the following points:
@@ -384,6 +393,32 @@ transactionRequest.setEnabledPayments(enabledPaymentList);
 
 midtransSDK.setTransactionRequest(transactionRequest);
 midtransSDK.startPaymentUiFlow(CONTEXT);
+```
+
+### How to display specific payment channel via mobile SDK client code?
+It is recommended to specify payment channel from merchant backend / server. Before forwarding request to Snap API, you can modify the JSON payload to add `enabled_payments` parameter. For example, add this to the JSON:
+
+```
+...
+"enabled_payments": ["credit_card", "mandiri_clickpay", "cimb_clicks",
+    "bca_klikbca", "bca_klikpay", "bri_epay", "echannel", "permata_va",
+    "bca_va", "bni_va", "other_va", "gopay", "indomaret",
+    "danamon_online", "akulaku"]
+...
+```
+
+If you really need it on client/front end side, try adding this config:
+
+Android Java try utilizing `setEnabledPayments`
+
+iOS Objective C
+```
+MidtransConfig.shared.customPaymentChannels = @[@"credit_card",@"gopay",@"bank_transfer"];
+```
+
+iOS Swift
+```
+MidtransConfig.shared().customPaymentChannels = ["alfamart"]
 ```
 
 ### Merchant is using Android SDK, but transaction is failing because 3DS is not enabled, what is wrong?
