@@ -232,6 +232,26 @@ or try these references:
 ### Merchant developer encounter `javax.net.ssl.SSLHandshakeException: Received fatal alert: handshake_failure` when trying to connect to Midtrans API url, what to do?
 This usually caused by outdated Java client. Please check the Java version, web framework version, and OS version used to connect. Please make sure you are not using outdated version, and stay updated, for example if your versions are: java version 1.7, web framework version Spring 3.1  and OS version windows 7. Please update. Java version 7 are no longer officially supported by Oracle (https://java.com/en/download/faq/java_7.xml ). Other than that Spring & OS version is also outdated. Using outdated platforms make your system vulnerable to security threats, which is not a suitable environment for handling payments.
 
+### Does Midtrans provide SSL certificate or root certificate for Merchant to download?
+Merchant **should not pin/download Midtrans' SSL certificate manually** (storing it locally as file) for your system to verify connection. Please let the HTTP client auto-verify SSL certificates (the default behaviour). That is not best practice and might break your future integration if our certificate is updated/upgraded.
+
+### Does Midtrans provide IP address of the API domain to be whitelisted from Midtrans side (outbound request from Merchant to Midtrans)?
+Midtrans API endpoint is distributed and protected with multiple layers of security, including Cloudflare, **so it will not have any specific IP address**. Please whitelist our API domain name instead:
+
+```
+api.midtrans.com
+app.midtrans.com
+```
+> Always use the domain name to contact our API — never an IP address.
+
+
+Or if you really need to, you can try to whitelist these IP: https://www.cloudflare.com/ips/
+
+However, you are responsible to always update the list yourself incase it got updated, else it might break your integration with Midtrans.
+
+For inbound request from Midtrans to Merchant, we provide IP address to whitelist:
+Please refer to: https://docs.midtrans.com/en/reference/address.html
+
 ### Merchant developer use React JS frontend framework, and unable to use midtrans.min.js / snap.js, what to do?
 Please be aware that React does play nicely with regular JS library inside `<script>` tag. Both are same frontend based JS anyway, so they can still access each other. So include the midtrans.min.js / snap.js as `<script>`. `Veritrans` object still available as global `window.Veritrans` object inside react. `Snap` object still available as global `window.Snap` object inside react. Please refer to https://github.com/facebook/create-react-app/issues/3007#issuecomment-357863643 
 
