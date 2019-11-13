@@ -327,7 +327,7 @@ Sometime that url trigger redirect to another url, or you have internal redirect
 ### How long is Gopay tranaction will be available to be paid after being created (after pending transaction status)?
 By default expiry for Gopay transaction is 15 minutes. However this can be customized by sending additional JSON parameter during transaction creation. Merchant can send `custom_expiry` ([Core API](https://api-docs.midtrans.com/#charge-features)) or `expiry` ([Snap API](https://snap-docs.midtrans.com/#json-objects)) parameter.
 
-It is **not recommended to set expiry below 15 minutes**, because Midtrans' expiry scheduler only reliably expire transaction with 15 minutes or more expiry. If merchant want the transaction to expire less than 15 minutes, they can utilize API [cancel](https://api-docs.midtrans.com/#cancel-transaction) or [expire](https://api-docs.midtrans.com/#expire-transaction) instead. Which merchant can trigger at anytime on a `pending` transaction.
+It is **not recommended to set expiry below 15 minutes**, because Midtrans' expiry scheduler only reliably expire transaction with 15 minutes or more expiry, 15 minutes is also might be subject to some delay on batch processing of periodic expire transactions. If merchant want the transaction to expire in real time or less than 15 minutes, they can utilize API [cancel](https://api-docs.midtrans.com/#cancel-transaction) or [expire](https://api-docs.midtrans.com/#expire-transaction) instead. Which merchant can trigger at anytime on a `pending` transaction.
 
 ### Can merchant retrieve/store Gopay deeplink url in mobile app?
 For Snap payment product:
@@ -358,6 +358,8 @@ https://app.midtrans.com/snap/v2/vtweb/c9e25cd7-1b89-4fc9-8cb8-ab0342eac21f?gopa
 In the very rare case of Gopay system already deduct customer’s Gopay but experiencing issues that may result in failure to notify Midtrans (and Merchant) about the transaction status, Gopay system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Merchant-Midtrans-Gopay to failure state. Merchant can always refer to status on Midtrans, as the most accurate (and final) status. Merchant may advise customer to re-check their Gopay balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on Gopay internal process. If customers still does not receive any refund, Merchant can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount.
 
 If the customer wish to proceed transaction, please create new transaction.
+
+> NOTE: **Do not** deliver good/service to customer, if transaction status on Midtrans is not `settlement`/success.
 
 ### When can I refund GoPay transaction?
 After transaction is settlement. You can instantly refund it, up to maximum of 45 day after settlement.

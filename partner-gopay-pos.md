@@ -165,7 +165,7 @@ Link: [*More detailed definition of fraud_status*](https://api-docs.midtrans.com
 ### Expiry Time
 By default expiry for Gopay transaction is 15 minutes. However this can be customized by sending additional JSON parameter during transaction creation. Partner can send `custom_expiry` ([Core API docs](https://api-docs.midtrans.com/#charge-features)).
 
-It is **not recommended to set expiry below 15 minutes**, because Midtrans' expiry scheduler only reliably expire transaction with 15 minutes or more expiry. If partner want the transaction to expire less than 15 minutes, partner can utilize API [cancel](https://api-docs.midtrans.com/#cancel-transaction) or [expire](https://api-docs.midtrans.com/#expire-transaction) instead. Which partner can trigger at anytime on a `pending` transaction.
+It is **not recommended to set expiry below 15 minutes**, because Midtrans' expiry scheduler only reliably expire transaction with 15 minutes or more expiry, 15 minutes is also might be subject to some delay on batch processing of periodic expire transactions. If partner want the transaction to expire in real time or less than 15 minutes, they can utilize API [cancel](https://api-docs.midtrans.com/#cancel-transaction) or [expire](https://api-docs.midtrans.com/#expire-transaction) instead. Which partner can trigger at anytime on a `pending` transaction.
 
 ### Refund
 For POS transaction, by default refund online via API/dashboard are not allowed. Please consult to Midtrans business PIC on how to handle refund scenario.
@@ -178,6 +178,8 @@ Order ID of each transaction should be unique, `order_id` cannot be used for oth
 
 ### Why is customer Gopay deducted while the transaction recorded as failure/expire on Midtrans Dashboard?
 In the very rare case of Gopay system already deduct customer’s Gopay but having technical issues that result in failure to notify Midtrans (and Merchant) about the transaction status, Gopay system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Merchant-Midtrans-Gopay to failure state. Merchant can always refer to status on Midtrans, as the most accurate (and final) status. Merchant may advise customer to re-check their Gopay balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on Gopay internal process. If customers still does not receive any refund, Merchant can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount.
+
+> NOTE: **Do not** deliver good/service to customer, if transaction status on Midtrans is not `settlement`/success.
 
 ### Server Key
 Server key is unique for each merchant, please consult to Midtrans Business PIC to retrieve it.
