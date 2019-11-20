@@ -29,8 +29,8 @@ body {
 }
 .sidebar-nav li>a{
     padding-left: 0.5rem;
-    border-right-width: 0rem; 
-    transition: ease-in 0.1s !important; 
+    /*border-right-width: 0rem;*/ 
+    /*transition: ease-in 0.1s !important;*/ 
 }
 .sidebar-nav li>a:hover
 /*,.sidebar-nav li>a:focus*/
@@ -38,10 +38,10 @@ body {
     text-decoration: none;
     background-color: var(--nav-link-hover);
     border-right-color: var(--sidebar-nav-link-border-color--active, var(--sidebar-nav-link-border-color));
-    margin-left: -0.3rem; 
-    border-right-width: 0.3rem; 
+    /*margin-left: -0.3rem;*/ 
+    /*border-right-width: 0.3rem;*/ 
 }
 .sidebar-nav li.active>a{
     background-color: var(--nav-link-hover);
-    transition: ease-out 0.1s; 
+    /*transition: ease-out 0.1s;*/ 
 }
