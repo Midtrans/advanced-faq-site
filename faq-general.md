@@ -120,6 +120,13 @@ The available payment statuses are:
 - `Settlement`: Customer payment is successfully confirmed by bank/payment provider.
 - `Refund`: Transaction is refunded by trigger from Merchant.
 
+### Should merchant refer to `status_code` API response as transaction status?
+`status_code` only refer to the result of current API action (it behave like HTTP status code). For example `status_code: 200`, the meaning depend on which API action context being executed. 
+
+In case of create transaction API action, `200` means the API able to create and receive payment successfuly. In case of get status API action, `200` means the API get status action is success, resulting in transaction found, regardless of the status of the transaction. It does not refer to the transaction status, and never intended as one.
+
+If Merchant want the reference of the most recent transaction status, it is recommended to check the `transaction_status` instead of `status_code`, which will have consistent value regardless of any API action.
+
 ### Merchant’s developer tested failure scenario within Go-Pay simulator, but nothing happens, transaction status still pending, what happens?
 That is expected, in production mode a failure of payment within Go-Jek App will be contained only within the app, and will allow customer to retry payment. So failure is not notified to Midtrans or Merchant. Transaction status will remain pending, to allow retry attempt from customer. If customer fail to do successful payment until expiry-time exceeded (default expiry is 15 minutes) the transaction status will then change to `EXPIRE` and cannot be paid.
 
@@ -535,6 +542,11 @@ Please refer to below sequence diagram,
 Please refer to below sequence diagram:
 
 ![Bank Transfer VA flow](./asset/image/va_coreapi.png)
+
+### Can you explain the flow of Recurring transaction using Snap?
+Please refer to below sequence diagram:
+
+![snap recurring flow](./asset/image/snap_recurring_sequence.png)
 
 ### Merchant updated iOS SDK from v1.14.7 and below, but old implementation did not work after update. How to resolve it?
 
