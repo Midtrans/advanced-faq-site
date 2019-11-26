@@ -25,10 +25,10 @@ body {
 }
 .sidebar-nav li{
     font-size: 0.85rem;
-    line-height: 1.5rem;
+    line-height: 2rem;
 }
 .sidebar-nav li>a{
-    padding-left: 0.5rem;
+    padding-left: 0.7rem;
     /*border-right-width: 0rem;*/ 
     /*transition: ease-in 0.1s !important;*/ 
 }
