@@ -177,9 +177,28 @@ Failure of payment within Gojek App will be contained only within the app, and w
 Order ID of each transaction should be unique, `order_id` cannot be used for other transaction if it is `pending` or `settlement`. You can however trigger cancel/expire on a `pending` transaction, so you can re-use the `order_id` if needed.
 
 ### Why is customer Gopay deducted while the transaction recorded as failure/expire on Midtrans Dashboard?
-In the very rare case of Gopay system already deduct customer’s Gopay but having technical issues that result in failure to notify Midtrans (and Merchant) about the transaction status, Gopay system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Merchant-Midtrans-Gopay to failure state. Merchant can always refer to status on Midtrans, as the most accurate (and final) status. Merchant may advise customer to re-check their Gopay balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on Gopay internal process. If customers still does not receive any refund, Merchant can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount.
+In the very rare case of Gopay system already deduct customer’s Gopay but experiencing issues that may result in failure to notify Midtrans (and Partner) about the transaction status, Gopay system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Partner-Midtrans-Gopay to failure state. Partner can always refer to status on Midtrans, as the most accurate (and final) status. Partner may advise customer to re-check their Gopay balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on Gopay internal process. If customers still does not receive any refund, Partner can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount.
+
+If the customer wish to proceed transaction, please create new transaction (and call API cancel to the previous transaction to avoid double transaction, if required).
 
 > NOTE: **Do not** deliver good/service to customer, if transaction status on Midtrans is not `settlement`/success.
+
+### Getting `deny` status on API response while attemtping to create Gopay transaction, what happened?
+
+Pleas check the API response, it usually contains more reason of why transaction fail, for example
+
+```
+...
+"status_message":"GO-PAY transaction is rejected"
+"transaction_status":"deny"
+"channel_response_code":"900"
+...
+```
+
+Some time `status_message` might already explain why it failed, then please check `channel_response_code` response code definition is explained here:
+https://api-docs.midtrans.com/#go-pay-response-codes
+
+In this example it means Gopay side returning `900` response code, which means intermittent service error. For the most case, it is retriable. There's temporary issue from Gopay at that time and please retry at later time.
 
 ### Server Key
 Server key is unique for each merchant, please consult to Midtrans Business PIC to retrieve it.
