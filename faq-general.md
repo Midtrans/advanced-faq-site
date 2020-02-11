@@ -3,6 +3,9 @@
 ### Which Credit Card acquiring bank that need BCA MIGS Pilot testing?
 BCA, Maybank, BRI. Full Payment and Installment
 
+### Got `Terminal or MID not found` message from log and all card transaction fail, what to do?
+MID-TID might not be properly onboarded yet (not yet sync), please ask onboarding team to sync or properly onboard.
+
 ### Why Snap Popup doesn’t work on merchant mobile app?
 - If merchant mobile app use webview to display snap popup, make sure the app configuration follow these points:
 Enable Javascript capability for the webview.
@@ -49,6 +52,10 @@ It’s recommended to have separate payment flow (can be separate payment button
 For payment method specific promo merchant have to use `enabled_payments`, customers can only pay with the specific payment method only. Hence customer cannot use it to pay using other payment method.
 
 It doesn’t have to be different `button`, UX wise merchant can make it as checkboxes “I want to pay with < payment method >” for customer to check, etc. As long as it can give merchant backend information that your customers want to pay with specific payment method, and merchant backend send the `enabled_payments` accordingly.
+
+### Why Merchant got alert that their HTTP notification is failure because of 3xx status code or redirect?
+
+See below.
 
 ### Why Midtrans HTTP notification looks "empty" when received on merchant backend / notification handler?
 It can be caused by `notification_url` (set by merchant on Dashboard) is ending up in HTTP redirect, when HTTP notification sent by Midtrans notification engine. If HTTP redirect happens, it can cause HTTP POST call to be redirected as HTTP GET, which means it will no longer contains HTTP body which contains the transaction data. Resulting in merchant notification handler getting empty request body, and might throw error. Redirect can be caused by network/reverse proxy/web framework used by merchant.
@@ -289,7 +296,7 @@ Here are some things that can be done if there are any mismatch in the transacti
 ### Merchant use Midtrans provided CMS plugin/module, but found that it does not exactly suit their specific needs, can Midtrans help change the plugin/module?
 Midtrans provides easy-to-install popular CMSes plugin/module to cover general merchant use cases plus some advanced features, and will try our best to cover use cases that are generally needed by most merchants. 
 
-However, please note that any of the CMS module is developed as-is and without any warranty of it will cover all specific merchant needs, due to each merchant use case can be very different and custom. There is no one-fits-all solution for those. 
+However, please note that any of the CMS module is developed as-is and without any warranty (MIT licensed, see the License file). No warranty of it will cover all specific merchant needs, due to each merchant use case can be very different and custom. There is no one-fits-all solution for those. 
 
 Midtrans publish and open source code of the modules. Merchant’s developer team should be able to further develop or use it as basis for their customization needs, because fulfilling merchant’s specific use cases should be their responsibility. 
 
@@ -625,6 +632,10 @@ Technical wise, for example merchant can add fee as additional `item_details` wh
 ]
 ...
 ```
+
+### For failure card transaction, there are `reversal transaction` entry in dashboard, what does it means?
+
+When a card transaction is failure because of acquiring bank timeout (no response after a while), Midtrans will make sure customer fund does not get deducted, by sending reversal command to bank. If customer fund deducted during the timeout, the reversal will makesure the fund will be reverted to customer. If fund is not deducted, then the reversal will do nothing. You should not be alarmed when you see this `reversal transaction` entry in dashboard.
 
 ### Merchant is using Midtrans' Shopify integration, sometimes item stock quantity become negative (item oversell), what happened?
 
