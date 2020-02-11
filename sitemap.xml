@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/faq-general</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/faq-credit-card</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/credit-card-fullpayment</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/credit-card-oneclick</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/partner-gopay-pos</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/shopify-guide</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/gh/Midtrans/midtrans-nodejs-client/master/README</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/gh/Midtrans/midtrans-python-client/master/README</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/gh/veritrans/go-midtrans/master/README</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/gh/veritrans/veritrans-ruby/master/README</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/gh/Midtrans/midtrans-php/master/README</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/gh/Midtrans/midtrans-java/master/README</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>https://midtrans-advanced-faq.netlify.com/#/gh/Midtrans/Midtrans-Payment-API-Postman-Collections/master/readme</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+<url>
+  <loc>http://docs.midtrans.com/en/welcome/pluginlibrary.html#plugin-for-snap</loc>
+  <lastmod>2020-02-11T19:16:59+07:00</lastmod>
+  <priority>0.75</priority>
+</url>
+
+</urlset>
