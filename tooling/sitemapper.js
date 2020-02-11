@@ -108,6 +108,7 @@ cleanUrls.map((url)=>{
 `<url>
   <loc>${url}</loc>
   <lastmod>${lastmod}</lastmod>
+  <changefreq>weekly</changefreq>
   <priority>${urlPriority}</priority>
 </url>
 `
