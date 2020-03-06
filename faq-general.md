@@ -438,6 +438,25 @@ Things to do:
 - Incase the issue persists, please share any error messages recorded on log, either from the Mobile or backend.
 - Check the backend log to see if it's able to get API response from Snap API, sometime API can reject invalid request. Provide the log to us if needed to check. Or at least the order_id of transaction, so we can crosscheck it with our API log.
 
+### How can merchant disable debug log on Android Mobile SDK?
+
+Merchant can disabled it by setting the value of `enableLog` to `false` . Here is the sample codes:
+```java
+SdkUIFlowBuilder.init()
+        .setClientKey(CLIENT_KEY)
+        .setContext(CONTEXT)
+        .setTransactionFinishedCallback(new TransactionFinishedCallback() {
+                    @Override
+                   public void onTransactionFinished(TransactionResult result) {
+                   }
+                })
+        .setMerchantBaseUrl(BASE_URL)
+        .enableLog(false) // this is to disable logging
+        .buildSDK();
+```
+\#mobile
+
+
 ### Can merchant set enabled payments list on Android SDK?
 It is recommended to define `enabled_payments` JSON field on merchant server (backend), during API request to Midtrans Snap API.
 
