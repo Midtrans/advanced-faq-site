@@ -190,6 +190,21 @@ On iOS, you will need to add `LSApplicationQueriesSchemes` key to your app's `In
 </array>
 ```
 
+**Web Browser & Progressive Web App (PWA)**
+
+If customer is transacting via Mobile Web Browser & PWA and Gojek App fail to be opened, please make sure that you are not trying to open `gojek://` deeplink via Javascript. Some web browser **may block** link opening/redirection via Javascript, because browser consider it as malicious pop-up.
+
+**Don't do** this, via javascript:
+```javascript
+window.open("gojek://gopay/merchanttransfer?tref=RHHM5IIFEIZCAUEWYDFITLBW", '_blank');
+```
+
+Instead please **do this**, allow customer to click the deeplink URL themselves, for example via HTML link element (`a` tag):
+```html
+<a href="gojek://gopay/merchanttransfer?tref=RHHM5IIFEIZCAUEWYDFITLBW" rel="noopener" target="_blank">Click to Pay with Gopay</a>
+```
+So browser will allow opening the deeplink URL, because it recognize it as valid user click.
+
 **React Native**
 
 On React Native try whitelisting the deeplink via the `originWhitelist`, for example:
