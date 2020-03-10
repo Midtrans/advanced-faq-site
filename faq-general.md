@@ -546,6 +546,39 @@ The 3DS process is not properly completed by customer. It can be various reasons
 
 Since the issue is between customer and card issuer, merchant & Payment Gateway can only observe.
 
+### Using 3DS Card transaction flow v1 Core API, how to ensure transaction is 3DS end to end?
+Parameters that can be check to make sure transaction is 3DS:
+
+1# Get Token Process (endpoint `/v2/token`):
+Make sure `redirect_url` present on the response. Sample:
+```javascript
+{
+  status_code: "200",
+  status_message: "Credit card token is created as Token ID.",
+  token_id: "481111-1114-dc7d77d5-237b-4a7f-a26c-75c4a7aa4e91",
+  bank: "bni",
+  redirect_url: "https://api.sandbox.veritrans.co.id/v2/token/redirect/481111-1114-dc7d77d5-237b-4a7f-a26c-75c4a7aa4e91",
+  hash: "481111-1114-xxx"
+}
+```
+2# Callback from 3DS iframe:
+Response object should have `status_message: "Success, 3D Secure token generated"` and `eci` field, as proof the OTP/3DS page has been successfully completed by customer and verified by card issuer. Sample:
+```javascript
+{
+  token_id: "481111-1114-592cfc60-9056-4c6d-bb4d-323fb0ebd97e",
+  status_code: "200",
+  status_message: "Success, 3D Secure token generated",
+  eci: "05"
+}
+```
+
+ECI for **non-3DS** transaction is `07` or `00` (bad value)
+https://support.midtrans.com/hc/en-us/articles/204161150-What-is-ECI-on-3DS-protocol-
+
+3# Charge process (endpoint `/v2/charge`)
+There will be `eci` value as well.
+ECI for **non-3DS** transaction is `07` or `00` (bad value)
+
 ### Can you explain the implementation details of Credit Card 3DS transaction?
 
 Please refer to this sample implementation:
