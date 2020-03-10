@@ -537,6 +537,15 @@ So developer need to setup web page which integrated with snap.js to display pay
 
 Alternatively developer can also utilize Core API, which is JSON-based REST API, that should be able to be integrated on virtually any framework/platform.
 
+### During 3DS card transaction frontend callback what does `"status_message": "Failed to generate 3D Secure token"` means?
+The 3DS process is not properly completed by customer. It can be various reasons, commonly:
+- Customer input wrong OTP/3DS. Which he can retry.
+- Customer don't have access to the OTP/3DS device.
+- Card issuer decided the transaction is unauthorized. e.g: fraud, stolen card, etc.
+- Card issuer 3DS verification system is having issue, maintenance, or downtime. Customer can try to reach card issuer contact center.
+
+Since the issue is between customer and card issuer, merchant & Payment Gateway can only observe.
+
 ### Can you explain the implementation details of Credit Card 3DS transaction?
 
 Please refer to this sample implementation:
