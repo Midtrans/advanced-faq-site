@@ -290,8 +290,15 @@ However, you are responsible to always update the list yourself incase it got up
 For inbound request from Midtrans to Merchant, we provide IP address to whitelist:
 Please refer to: https://docs.midtrans.com/en/reference/address.html
 
+### Merchant developer are using React/Vue/Angular (or any frontend framework) PWA, does Midtrans have any compatible library?
+Please note that those framework is frontend JS frameworks.
+
+Midtrans CoreApi product require backend only integration, you are free to use anything you want in the frontend, as long as it able to display the data returned by CoreApi on backend.
+
+Midtrans Snap product require backend & frontend integration. On the backend, those famework doesn't matter, you still can use [our library](https://beta-docs.midtrans.com/en/technical-reference/library-plugin) based on your backend tech stack. While on the frontend you [can follow this answer below](#merchant-developer-use-react-js-frontend-framework-and-unable-to-use-midtransminjs-snapjs-what-to-do)
+
 ### Merchant developer use React JS frontend framework, and unable to use midtrans.min.js / snap.js, what to do?
-Please be aware that React does play nicely with regular JS library inside `<script>` tag. Both are same frontend based JS anyway, so they can still access each other. So include the midtrans.min.js / snap.js as `<script>`. `Veritrans` object still available as global `window.Veritrans` object inside react. `Snap` object still available as global `window.Snap` object inside react. Please refer to https://github.com/facebook/create-react-app/issues/3007#issuecomment-357863643 
+Please be aware that React (or other frontend framework) does play nicely with regular JS library inside `<script>` tag. Both are same frontend based JS anyway, so they can still access each other. So include the midtrans.min.js / snap.js as `<script>`. `Veritrans` object still available as global `window.Veritrans` object inside react. `Snap` object still available as global `window.Snap` object inside react. Please refer to https://github.com/facebook/create-react-app/issues/3007#issuecomment-357863643 
 
 ### Merchant tried to send request to Midtrans API, but always get blocked by CORS Policy on the browser, what's the issue?
 For now that is expected you will get CORS issue when calling `/transactions` endpoint from frontend (at least until our Snap API team decided to allow CORS). Please send the API request securely from backend.
