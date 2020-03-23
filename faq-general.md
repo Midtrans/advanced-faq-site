@@ -39,6 +39,15 @@ For offline installment merchant have to use `whitelist_bins`, customer can only
 
 It doesn’t have to be different `button`, UX wise merchant can make it as checkboxes “I want to pay with <Offline Installment bank> Installment” for customer to check, etc. As long as it can give merchant backend information that your customers want to pay with offline installment, and merchant backend send the `whitelist_bins` accordingly.
 
+### Is it possible to identify card issuer or brand based on the card number?
+Yes, it is. The first 6-digit of the card is called: Bank Identification Number (BIN). e.g: `410505` belong to BNI Visa card, `477377` belong to BCA Visa card, etc.
+
+If you need to identify card issuer/brand for promo purpose, it is advisable to request list of BIN from the Bank that want to do promo with you, or usually they will provide the list of BINs when they offer to do join promotion. Because they will have the most accurate list of BIN for the cards they issued.
+
+Else, if you have no choice but to do it yourself, Midtrans offers BIN API:
+https://api-docs.midtrans.com/#bin-api
+Which constructed based on BINs provided by Midtrans' partner banks. It might not be 100% accurate for every card available out there. So please proceed with caution.
+
 ### Merchant want to use credit card BIN based promo campaign, how they should implement it? 
 It’s recommended to have separate payment flow (can be separate payment button, etc) for BIN specific promo.
 
