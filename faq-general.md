@@ -407,6 +407,12 @@ https://app.midtrans.com/snap/v2/vtweb/c9e25cd7-1b89-4fc9-8cb8-ab0342eac21f?gopa
 
 \#gopay \#snap
 
+### Is Gopay QR or QRIS provided by Midtrans API a dynamic QR or static QR?
+
+All QR for Gopay QR and QRIS are a dynamic QR, which means 1 QR for 1 Transaction. Cannot be paid more than once. And the transaction amount is fixed once created. Unlike static QR for typically offline merchants, whic can be re-used, but don't have fixed amount.
+
+\#qris \#gopay \#snap
+
 ### Why is customer Gopay deducted while the transaction recorded as failure/expire on Midtrans Dashboard?
 In the very rare case of Gopay system already deduct customer’s Gopay but experiencing issues that may result in failure to notify Midtrans (and Merchant) about the transaction status, Gopay system will auto-sync transaction on their end by refunding the payment. This mechanism intended to sync up transaction status between Merchant-Midtrans-Gopay to failure state. Merchant can always refer to status on Midtrans, as the most accurate (and final) status. Merchant may advise customer to re-check their Gopay balance periodically to ensure that their balance is refunded, as the refund can be instant or might take a while depends on Gopay internal process. If customers still does not receive any refund, Merchant can email bizops[at]midtrans.com with following information: Order ID, Transaction date, Gross amount.
 
