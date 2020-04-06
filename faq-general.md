@@ -744,6 +744,17 @@ Then because other customers were permitted to proceed to the gateway, any succe
 
 > It is a factor that our support developers are working on and they're constantly testing for a new method of offsite gateways integrating with our inventory services, but as it currently stands this is something that can happen with use of an external payment gateway which is not directly connected to an online checkout
 
+### Why do Google Analytics within Snap payment page is different than the one configured from Snap Preference menu?
+When merchant is using `Snap.js`, Snap payment page are loaded within iframe inside merchant's website. The custom Google Analytics UA id merchant set on `Snap Preference` menu on Midtrans Dashboard are loaded dynamically within the Iframe. Merchant might not immediately find it on the HTML, because it is dynamically loaded via Ajax.
+
+As evidence that merchant's custom Google Analytics code is successfully used, open `Chrome Dev Tools` before merchant's payment page is loaded, continue checkout until Snap page/iframe is opened . Go to `network` tab. On the filter or search field type the UA id, e.g: `UA-xxxxxxx-x`. Analytics request sent to Google Analytics server with custom UA id will be found there. It means merchant UA id is correctly being used.
+
+Midtrans also have another built-in Midtrans' UA id within the iframe html. That the purpose is to track Snap pageviews count globally across any merchants using snap, for analytics and debugging purpose.
+
+Merchant can let Midtrans know if they have any concern regarding this.
+
+\#snap \#google-analytics
+
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 .
