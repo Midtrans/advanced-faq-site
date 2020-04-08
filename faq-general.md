@@ -44,9 +44,22 @@ Yes, it is. The first 6-digit of the card is called: Bank Identification Number 
 
 If you need to identify card issuer/brand for promo purpose, it is advisable to request list of BIN from the Bank that want to do promo with you, or usually they will provide the list of BINs when they offer to do join promotion. Because they will have the most accurate list of BIN for the cards they issued.
 
+Or, if simple card's network identification is what you need, you can simply identify by the first digit of the card:
+```
+- Visa begin with 4
+- Mastercard begin with 5
+- Amex begin with 34 or 37
+- JCB begin with 2131, 1800 or 35
+```
+Further reference
+- https://stackoverflow.com/a/72801
+- https://www.creditcardinsider.com/learn/anatomy-of-a-credit-card/
+
 Else, if you have no choice but to do it yourself, Midtrans offers BIN API:
 https://api-docs.midtrans.com/#bin-api
 Which constructed based on BINs provided by Midtrans' partner banks. It might not be 100% accurate for every card available out there. So please proceed with caution.
+
+For further reference on card transaction please visit: https://support.midtrans.com/hc/en-us/articles/115004900593-Introduction-to-Card-Payment-processing
 
 ### Merchant want to use credit card BIN based promo campaign, how they should implement it? 
 It’s recommended to have separate payment flow (can be separate payment button, etc) for BIN specific promo.
@@ -269,6 +282,8 @@ or try these references:
 
 ### Merchant developer encounter `javax.net.ssl.SSLHandshakeException: Received fatal alert: handshake_failure` when trying to connect to Midtrans API url, what to do?
 This usually caused by outdated Java client. Please check the Java version, web framework version, and OS version used to connect. Please make sure you are not using outdated version, and stay updated, for example if your versions are: java version 1.7, web framework version Spring 3.1  and OS version windows 7. Please update. Java version 7 are no longer officially supported by Oracle (https://java.com/en/download/faq/java_7.xml ). Other than that Spring & OS version is also outdated. Using outdated platforms make your system vulnerable to security threats, which is not a suitable environment for handling payments.
+
+Other than that, it can also be caused by improper SSL certificate pinning/downloading on the Java client, continue to this question below.
 
 ### Does Midtrans provide SSL certificate or root certificate for Merchant to download?
 Merchant **should not pin/download Midtrans' SSL certificate manually** (storing it locally as file) for your system to verify connection. Please let the HTTP client auto-verify SSL certificates (the default behaviour). That is not best practice and might break your future integration if our certificate is updated/upgraded.
