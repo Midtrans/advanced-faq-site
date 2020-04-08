@@ -1,16 +1,9 @@
 [**:house: Home**](/)
 - **:question: FAQ**
 	- [General Topic](faq-general.md)
-	- [Credit Card](faq-credit-card.md)
-- **Core API**
-	- Card Payment
-		- [Basic Card Payment](credit-card-fullpayment.md)
-		- [One Click (Recurring) Feature](credit-card-oneclick.md)
 - **Misc**
 	- POS Partner
 		- [GoPay Integration](partner-gopay-pos.md)
-	- Ecommerce Platform
-		- [Shopify Integration](shopify-guide.md)
 - **:wrench: Integration Library Docs**
 	- [Node JS](/gh/Midtrans/midtrans-nodejs-client/master/README.md)
 	- [Python](/gh/Midtrans/midtrans-python-client/master/README.md)
@@ -19,4 +12,4 @@
 	- [PHP](/gh/Midtrans/midtrans-php/master/README.md)
 	- [Java](/gh/Midtrans/midtrans-java/master/README.md)
 	- [Postman Collection](/gh/Midtrans/Midtrans-Payment-API-Postman-Collections/master/readme.md)
-- **[:electric_plug: Integration Plugins](http://docs.midtrans.com/en/welcome/pluginlibrary.html#plugin-for-snap)**
+- **[:electric_plug: Integration Plugins](https://beta-docs.midtrans.com/en/snap/with-plugins)**
