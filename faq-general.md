@@ -305,6 +305,15 @@ However, you are responsible to always update the list yourself incase it got up
 For inbound request from Midtrans to Merchant, we provide IP address to whitelist:
 Please refer to: https://docs.midtrans.com/en/reference/address.html
 
+### Why merchant is getting 403 from Cloudflare, merchant is using reverse-proxy to contact Midtrans API?
+We always recommend for request to be sent directly to Midtrans API. Using reverse-proxy in front of Midtrans API can risk exposing the transaction data to the proxy (and its log). Exposing payment data like credit card posses big security risk and should be avoided.
+
+Midtrans is also using Cloudflare as security measurements on top of Midtrans API. Cloudflare might block the request because it thinks the request is indicated as insecure.
+
+Using proxy may cause failures, and if the failures is on the proxy side, Midtrans can't (and not in the position) to help, please consult your proxy admin.
+
+\#cloudflare \#security \#proxy
+
 ### Merchant developer are using React/Vue/Angular (or any frontend framework) PWA, does Midtrans have any compatible library?
 Please note that those framework is frontend JS frameworks.
 
