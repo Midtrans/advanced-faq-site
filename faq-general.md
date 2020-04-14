@@ -785,6 +785,12 @@ Merchant can let Midtrans know if they have any concern regarding this.
 
 \#snap \#google-analytics
 
+### Based on which data is information being printed on Indomaret payment receipt obtained after customer pay?
+It is based on:
+- `Biller / Merchant` from value: `Merchant Name` set under menu `Settings > General Settings` Dashboard,
+- `Nama` from value: `first_name.customer_details` & `last_name.customer_details` of the transaction request
+- `Deskripsi` from value: `quantity.item_details` & `name.item_details` of the transaction request
+
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 .
