@@ -279,6 +279,30 @@ or try these references:
 - https://stackoverflow.com/questions/56800122/err-unknown-url-scheme-on-react-native-webview
 - https://stackoverflow.com/questions/35531679/react-native-open-links-in-browser
 
+### As a Merchant why am I getting notified to update my system version?
+Technically the reason is to remind you to ensure that:
+- Your HTTPS client (or SSL client) used to communicate with Midtrans API domain are not outdated, and is in compliance to latest security standard.
+
+- HTTPS client is piece of tech component being used by your system to send HTTPS request and verify SSL when communicating with Midtrans API. The exact component varies between systems, it can be OS, cURL, OpenSSL, PHP, Java, etc. depends on the design of your system. You need to make sure those component is updated, with at least version later than 2016.
+
+Because if you have outdated component, following things can possibly happen:
+- Security risk, with the SSL encryption being not strong enough and might be able to be cracked by actor that have access to your HTTPS request.
+- Potential compatibility issue: 
+  - With outdated HTTPS client, SSL certificate being used by Midtrans API might become unrecognizable, and potentially block your request to Midtrans API.
+  - With outdated HTTPS client, SSL handshake can be rejected by Midtrans API because it does not meet security standard.
+
+#### Updating if you are using CMS that is based on PHP web stack
+If you are using PHP based CMS, check if your payment component use Veritrans/Midtrans PHP library or official Midtrans CMS plugin/module. The most recommended way is to update it to the latest version of the official [library or plugin](https://beta-docs.midtrans.com/en/technical-reference/library-plugin).
+
+But **if in some exceptional case you really are unable to** simply update it (e.g: due to customization), the least thing you should do is to search for this line of code within your payment-related codebase:
+```php
+CURLOPT_CAINFO => dirname(__FILE__) . "/../data/cacert.pem"
+```
+then remove that line or comment it out. Like in this [sample](https://github.com/veritrans/veritrans-php/commit/592a18d8c9b0789927029f8202abdd5b6e3b04c9).
+
+Because that line is reading from a static file `cacert.pem` which might be outdated, that file is responsible for SSL verification, outdated file might cause failure on SSL verification. By removing that line, now the SSL verification is handled by OS/cURL/OpenSSL of the OS itself. So you must also make sure the OS/cURL/OpenSSL is at least on the version that is newer than 2016.
+
+If you are using Java, especially the outdated version of 1.7 or older, continue to question below.
 
 ### Merchant developer encounter `javax.net.ssl.SSLHandshakeException: Received fatal alert: handshake_failure` when trying to connect to Midtrans API url, what to do?
 This usually caused by outdated Java client. Please check the Java version, web framework version, and OS version used to connect. Please make sure you are not using outdated version, and stay updated, for example if your versions are: java version 1.7, web framework version Spring 3.1  and OS version windows 7. Please update. Java version 7 are no longer officially supported by Oracle (https://java.com/en/download/faq/java_7.xml ). Other than that Spring & OS version is also outdated. Using outdated platforms make your system vulnerable to security threats, which is not a suitable environment for handling payments.
