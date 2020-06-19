@@ -817,6 +817,12 @@ It is based on:
 - `Nama` from value: `first_name.customer_details` & `last_name.customer_details` of the transaction request
 - `Deskripsi` from value: `quantity.item_details` & `name.item_details` of the transaction request
 
+### Does Midtrans show the trail history of transaction or payment cycle?
+Midtrans provide [dashboard](https://dashboard.midtrans.com) that record transaction status details, from the **transaction menu** page, you can click one of the **Order ID**, then scroll down to see **Transaction History**. It will contains payment status changes like, from `pending` to `settlement` to `refund` status.
+
+Midtrans also provide interface to view HTTP notification history under menu `Settings > Configuration > See History`.
+
+The most recommended method is to built your own audit trail of transaction events. Because for example the event of transaction being created and customer initiating payment is triggered on your system, you can record that event. Plus for each transaction status changes on Midtrans side, Midtrans will send HTTP notification to your **Notification URL** (configured on dashboard). You may want to record each of those events to know the transaction history from end to end.
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 .
