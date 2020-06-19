@@ -823,6 +823,17 @@ Midtrans provide [dashboard](https://dashboard.midtrans.com) that record transac
 Midtrans also provide interface to view HTTP notification history under menu `Settings > Configuration > See History`.
 
 The most recommended method is to built your own audit trail of transaction events. Because for example the event of transaction being created and customer initiating payment is triggered on your system, you can record that event. Plus for each transaction status changes on Midtrans side, Midtrans will send HTTP notification to your **Notification URL** (configured on dashboard). You may want to record each of those events to know the transaction history from end to end.
+
+### Transaction has been paid by customer, but the status in Merchant's system is not updated, what is the issue?
+In some case merchant may find transaction status changes is not reflected to merchant's system. In that case first please check from Midtrans dashboard:
+- Log in to **Midtrans Dashboard**
+- On the **Transaction** menu Search by Midtrans Order ID, click and see what's the payment status status
+
+If the status is updated on Midtrans but not on Merchant's System, please check if HTTP Notification is sent from Midtrans to Merchant's System: 
+- [View notification history](https://beta-docs.midtrans.com/en/after-payment/http-notification?id=view-notification-history)
+
+Most likely the issue is caused by issue or mis-implementation of **notification url** handler on Merchant's system backend, which explained on the link above on how to resolve it.
+
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 .
