@@ -336,6 +336,8 @@ Midtrans is also using Cloudflare as security measurements on top of Midtrans AP
 
 Using proxy may cause failures, and if the failures is on the proxy side, Midtrans can't (and not in the position) to help, please consult your proxy admin.
 
+If you are still getting getting 403 without using proxy, please make sure your [HTTP request header & format are correct](https://beta-docs.midtrans.com/en/technical-reference/api-header).
+
 \#cloudflare \#security \#proxy
 
 ### Merchant developer are using React/Vue/Angular (or any frontend framework) PWA, does Midtrans have any compatible library?
