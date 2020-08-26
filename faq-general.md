@@ -834,6 +834,15 @@ If the status is updated on Midtrans but not on Merchant's System, please check 
 
 Most likely the issue is caused by issue or mis-implementation of **notification url** handler on Merchant's system backend, which explained on the link above on how to resolve it.
 
+### Refund has been requested for QRIS transaction, but the customer haven't receive the refund after a while, what is the issue?
+When customer made payment using QRIS protocol. The IS stands for Indonesian Standard, which means the protocol is nationally interconnected between Indonesian wallet provider facilitated by national-switching-company assigned by Bank Indonesia, as official regulatory. The fund are routed from their source-wallet (e.g: Wallet ABC), to national payment-switching-company, then to the acquiring-wallet (Gopay) for Merchant.
+
+When refund happens, the same route must be taken backward. In this case Merchant may have requested Gopay, and has may has been completed by Gopay to send the refund back. Which Merchant & Gopay have completed their responsibility for refund process. However the fund may now be between national-switching-company and source-wallet (e.g: Wallet ABC), and is subject to their refund policy, which explained may take up to several days.
+
+It is advised for customer to ask the source-wallet for the fund status.
+
+If the transaction was Gopay to Gopay, the refund policy will be much faster (near to instant in most cases), since the refund is not subject to external party policy.
+
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 .
