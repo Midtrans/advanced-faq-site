@@ -116,6 +116,16 @@ In case of OTP could not be received by customer, the issue is between card issu
 
 Merchant should inform customer to contact their card issuer support center, they should explain in details that they are unable to do online transaction and did not receive 3DS / OTP. Also inform the error message displayed on the page if any. Make sure they explain about the issue is for online transaction, because in some cases card issuer support center might only check the card issue for offline transaction and tell customer the card is fine and able to transact.
 
+### Customer receive notification from card issuer or payment provider that transaction success, but transaction is failure according to Midtrans, what's the issue?
+
+On some rare cases where customer fund is deducted but acquiring bank is having issue such as network timeout or unable to response to a transaction charge request, transaction is considered failure. By default the customer funds will not be deducted, or will be automatically attempt to be refunded/reversed if deducted.
+
+Unfortunately, most card issuer (or payment provider) only notify customer (via SMS, email, push notification, etc) when the fund deduction happen, but likely does not notify when the fund has been refunded/reversed. This may cause confusion to the customer thinking that their fund has been deducted but transaction is failure, but unfortunately it is directly under the card issuer (payment provider) control, which Midtrans/Merchant unable to control.
+
+Customer should check billing statement or contact their card issuer to ensure no fund has been deducted. Merchant can also check the transaction details within Midtrans dashboard, it usually will have `reversal` event for card transaction.
+
+In case further fund status check is required, merchant can email bizops[at]midtrans.com with atleast following information: Order ID, Transaction date, Gross amount.
+
 ### Merchant don’t want to pass real "customer_details" data to Midtrans, is there any consequences? how should merchant do? 
 There is no legal or business constraint if merchant want to do that. But there might be technical consequences in terms of how Midtrans Fraud Detection System (FDS) works.
 Few sample cases are:
