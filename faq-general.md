@@ -116,6 +116,11 @@ In case of OTP could not be received by customer, the issue is between card issu
 
 Merchant should inform customer to contact their card issuer support center, they should explain in details that they are unable to do online transaction and did not receive 3DS / OTP. Also inform the error message displayed on the page if any. Make sure they explain about the issue is for online transaction, because in some cases card issuer support center might only check the card issue for offline transaction and tell customer the card is fine and able to transact.
 
+### During card transaction, customer input invalid expiry date and CVV, but transaction still get proceeded to 3DS, is this expected?
+Card's expiry date and CVV validation is part of Card Issuer's validation process, because Card Issuer hold the card data and is responsible to validate it. Midtrans as PG, only proceed based on what the Card Issuer validation process return to Midtrans. In this case the Card Issuer still allow to proceed to 3DS even though some of the card data input is invalid.
+
+Card Issuer are responsible and have their rights to implement card validation process, they may validate expiry date and/or CVV input, or sometime they prioritize 3DS validation over expiry date and/or CVV input. Because they may decide that 3DS validation is stronger than those other inputs, and the final result of 3DS will decide the final result of transactions, regardless. Or sometime they may decide to deny a transaction caused by wrong input after 3DS.
+
 ### Customer receive notification from card issuer or payment provider that transaction success, but transaction is failure according to Midtrans, what's the issue?
 
 On some rare cases where customer fund is deducted but acquiring bank is having issue such as network timeout or unable to response to a transaction charge request, transaction is considered failure. By default the customer funds will not be deducted, or will be automatically attempt to be refunded/reversed if deducted.
