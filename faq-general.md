@@ -187,12 +187,18 @@ Note: Only applicable if you are using Midtrans iOS SDK, specifically under vers
 
 Recently, Apple introduced a new App Submission warning stating that they are formally deprecating `UIWebView` in favor of `WKWebView`. We wanted to let you know that Midtrans iOS SDK has been updated to use `WKWebView` on our latest version of Midtrans iOS SDK `v1.16.0` to meet the new Apple App Submission requirement. Please ensure update to this latest version next time you plan to submit your app to App Store.
 
+### Customer fail to be redirected to Gojek GoPay, Shopee Pay, and other e-wallet payment provider app, what to do?
+
+Please proceed with the ["Customer fail to be redirected to gojek:// deeplink on mobile app, what to do?" FAQ below](#customer-fail-to-be-redirected-to-gojek-deeplink-on-mobile-app-what-to-do).
+
+It applies to any other e-wallet payment providers too, so for example if the issue happen to `shopee://` app deeplink, then proceed with the suggestion to allow deeplink whitelist, but replace `gojek://` with `shopee://`.
+
 ### Customer fail to be redirected to gojek:// deeplink on mobile app, what to do?
 If merchant is using android app webview to open the deeplink url, webview need to be configured to allow open deeplink to other app 
 
 Please make sure that the webview allow opening `gojek://` deeplink protocol. 
 
-**Android**
+#### Android
 
 On Android please refer to: https://stackoverflow.com/a/32714613 . You need to modify your web view shouldOverrideUrlLoading functions as follows:
 ```java
@@ -211,7 +217,7 @@ On Android please refer to: https://stackoverflow.com/a/32714613 . You need to m
  }
  ```
 
-**iOS**
+#### iOS
 
 On iOS, you will need to add `LSApplicationQueriesSchemes` key to your app's `Info.plist`
 
@@ -222,7 +228,7 @@ On iOS, you will need to add `LSApplicationQueriesSchemes` key to your app's `In
 </array>
 ```
 
-**Web Browser & Progressive Web App (PWA)**
+#### Web Browser & Progressive Web App (PWA)
 
 If customer is transacting via Mobile Web Browser & PWA and Gojek App fail to be opened, please make sure that you are not trying to open `gojek://` deeplink via Javascript. Some web browser **may block** link opening/redirection via Javascript, because browser consider it as malicious pop-up.
 
@@ -237,11 +243,11 @@ Instead please **do this**, allow customer to click the deeplink URL themselves,
 ```
 So browser will allow opening the deeplink URL, because it recognize it as valid user click.
 
-**React Native**
+#### React Native
 
 On React Native try whitelisting the deeplink via the `originWhitelist`, for example:
 
-```
+```html
 <WebView
     {...this.props}
     bounces={false}
@@ -283,7 +289,7 @@ openExternalLink= (req) => {
   }
 }
 ```
-or try these references:
+or try following these references:
 - https://facebook.github.io/react-native/docs/linking#opening-external-links
 - https://stackoverflow.com/questions/54248411/react-native-deep-link-from-within-webview
 - https://stackoverflow.com/questions/56800122/err-unknown-url-scheme-on-react-native-webview
