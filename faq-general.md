@@ -404,6 +404,34 @@ Midtrans publish and open source code of the modules. Merchant’s developer tea
 
 Midtrans however is fully responsible to payment API service (not CMS plugin/module, but API), which you can let us know if there’s feedback for us to review related to the API. Midtrans will also consider implementing feedback for CMS plugin/module if the feedback can be beneficial to general use cases.
 
+### Merchant use Midtrans provided CMS plugin/module, but encounter issue, can Midtrans help check?
+Since the plugin/module and the CMS is hosted on the merchant's infrastructure, Midtrans may not be able to check it directly.
+
+Please provide all the details necessary for technical check assitance. Please provide as much details as possible, at least:
+- Error log of the CMS / PHP / Server that have relevant Midtrans related error message.
+- Order ID of the transaction.
+- Screenshot or video of the issue.
+
+Midtrans can only help guide/assist the troubleshooting process, as Midtrans may not have direct control/access of the infrastructure. Merchant is fully in control/responsible of this process.
+
+Please note that many things can cause interference or issue that is outside of Midtrans control, for example:
+- Server / infra / network related issue
+	- Which must be ensured to be working properly first, else any function (not just payment) of the server can be problematic
+- Installing conflicting non-standard plugins/module or themes
+	- Try to uninstall all other plugin/module/themes first and see if it works
+	- Try to install and test on freshly installed CMS, without installing any 3rd party plugin/module/themes and modifications. 
+	- If it works, then most likely one of your modifications caused the issue
+- Non standard modification of the CMS
+- Outdated, or no longer supported CMS version
+	- Please update to the latest recommended compatible version
+- Malware on the infrastructure
+	- Please make sure your infrastructure is clean, or freshly re-install the CMS
+- etc.
+
+So Midtrans may not be able to guarantee anything, due to the numerous external factors that is not under control.
+
+Also please [refer to previous statement above this FAQ](#merchant-use-midtrans-provided-cms-pluginmodule-but-found-that-it-does-not-exactly-suit-their-specific-needs-can-midtrans-help-change-the-pluginmodule).
+
 ### Our customer/team tried to pay using a Debit Card, but we are getting responses that the transaction is denied, what is the issue?
 Please note that not all debit card (especially in Indonesia) is activated by the card issuer (bank) for online payment. That can vary depends on card issuer (bank) regulation, most major Indonesian banks still doesn’t activate debit card for online transaction by default, because of security reasons. In this case, customer (card holder) should ask their card issuer (bank) whether their debit is activated for online transaction or not, before attempting to make online transactions.
 
