@@ -17,6 +17,23 @@ Those configs may be found on app config/manifest. Or specific code when calling
 
 Because a lot of payment methods within snap will redirect customer to bank website, merchant mobile dev need to make sure the app allow webview to open bank website domains. Which might mean whitelisting any domain to be opened, because in case of credit card, customers can use any issuing bank credit card, which the web domain can be anything.
 
+### Why Snap payment button is obscured/covered by Android's on screen navigation bar, when rendered via merchant's app webview?
+When merchant decide to render Snap within webview of merchant's app, please ensure to configure/implement the webview properly. Because webview can sometimes behave unexpectedly on some devices/OS. And may not fully render the web page properly. Some element like pay button can be obscured.
+
+You can avoid this situation by trying to follow these configurations.
+
+On your `AndroidManifest.xml`, configure:
+
+```
+android:fitsSystemWindows="true"
+```
+If that is not enough, make sure to do this as well with your views, webviews etc.
+
+Further reference if that does not solve the issue:
+- https://stackoverflow.com/questions/7026854/textbox-hidden-below-keyboard-in-android-webview
+- https://stackoverflow.com/questions/35679445/content-going-behind-navigation-bar
+- https://medium.com/androiddevelopers/why-would-i-want-to-fitssystemwindows-4e26d9ce1eec
+
 ### Can Merchant revoke or cancel an active Snap Token to prevent customer proceed the transaction?
 There's no official revoke or cancel API method for Snap token.
 
