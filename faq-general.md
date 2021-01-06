@@ -100,8 +100,8 @@ It can be caused by `notification_url` (set by merchant on Dashboard) is ending 
 
 Make sure that there is no redirect on the `notification_url` configured on Dashboard. You can open the URL on web browser, see whether the end URL is the same as the original URL or not. Ideally it should be different. It means there is a redirect. Use the last URL displayed on browser URL bar, after you open the original URL as `notification_url`.
 
-### Why Permata VA cannot be customized?{docsify-ignore}
-Permata custom VA is available only for B2B VA type. So, it cannot be customized.
+### Why my Permata VA number cannot be customized?{docsify-ignore}
+Permata custom VA is available only for B2B VA type. So if you are have agreement with permata as B2C VA type, the VA number cannot be customized.
 
 ### How can I check the reasons for the denial of a customer’s credit card transaction?{docsify-ignore}
 The reason of a denied credit card transaction can be checked on merchant Dashboard. Go to home page, and search order id. Click ⓘ on “**Transaction failure**” red indicator, to display the reason for denied transaction.
@@ -112,14 +112,14 @@ Yes. If you trust the customer and wish to whitelist the customer, please provid
 ### What should I do if the customer card is denied by the bank or is blocked on OTP page?{docsify-ignore}
 If the card is blocked within the OTP/3DS page of the card issuer/bank, the customer should contact the card issuer/bank call center. The customer should provide the card issuer/bank the screenshot or message of the issue on the 3DS page. Please note that some card issuer/bank might mistakenly check only if the card has any offline payment issue. They might not check from online/3DS perspective whether it is able to transact online or not. The customer should mention specifically, that they are unable to pay on 3DS enabled online merchant.
 
-Unfortunately, the Payment Gateways have no direct control over the issue, because the block happened on the card issuer (and their network) side. The customer should explain the issue to the card issuer.
+Unfortunately, Midtrans as the Payment Gateways have no direct control over the issue, because the block happened on the card issuer (and their network) side. The customer should explain the issue to the card issuer.
 
 ### The customer stuck on 3DS/OTP screen. What is happening?{docsify-ignore}
 3DS/OTP page is directly served by card issuer/bank's website. The issue is very likely caused by downtime or maintenance on the website.
 
 The customer should contact the card issuer/bank call center. The customer should provide the card issuer/bank the screenshot or message of the issue on the 3DS page. Please note that some card issuer/bank might mistakenly check only if the card has any offline payment issue. They might not check from online/3DS perspective whether it is able to transact online or not. The customer should mention specifically that, they are unable to pay on 3DS enabled online merchant.
 
-Unfortunately, the Payment Gateways have no direct control over the issue, because the block happened on Card Issuer (and their network) side. The customer should explain the issue to the card issuer.
+Unfortunately, Midtrans as the Payment Gateways have no direct control over the issue, because the block happened on Card Issuer (and their network) side. The customer should explain the issue to the card issuer.
 
 ### The customer does not receive 3DS/OTP, so he can’t proceed with payment or the customer can proceed with the payment but the transaction becomes non 3DS. What is the issue? What should I do?{docsify-ignore}
 In case of OTP could not be received by customer, the issue is between card issuer’s (bank’s) 3DS (OTP) page and the customer's phone. This can be caused because of any of the following reasons.
@@ -128,20 +128,20 @@ In case of OTP could not be received by customer, the issue is between card issu
 - The customer's phone is unreachable by the SMS service or the customer's phone does not have enough credit to receive SMS, and so on.
 - The card issuer is having issues and is downgrading the transaction to non 3DS.
 
-You should inform the customer to contact their card issuer support center. They should explain in detail that they are unable to do online transaction and did not receive 3DS/OTP. They should also provide the error message displayed on the page, if any. Make sure that they explain the issue is for online transaction. The card issuer support center might check the card issue for offline transaction only, and tell customer that the card is fine and able to transact. The card issuer support center should check for issues on online transaction.
+You should inform the customer to contact their card issuer support center. They should explain in detail that they are unable to do online transaction and did not receive 3DS/OTP. They should also provide the error message displayed on the page, if any. Make sure that they explain the issue is for online transaction. That is to avoid some case where the card issuer support center might mistakenly check the card issue for offline transaction only, and may tell customer that the card is fine and able to transact. The card issuer support center should check for issues on online transaction.
 
 ### During card transaction, the customer entered invalid expiry date and CVV, but the transaction still get proceeded to 3DS, is this expected?{docsify-ignore}
 The card's expiry date and CVV validation is a part of card issuer's validation process. The card issuer holds the card data and is responsible to validate it. Midtrans, as a payment gateway, only proceeds based on the card issuer validation process returned.
 
- In this case the Card Issuer still allows to proceed to 3DS even though some of the card data input is invalid. The card issuer is responsible and have the rights to implement card validation process. They may validate expiry date only or both Expiry date AND CVV input, or sometime they prioritize 3DS validation over expiry date and CVV input. They may decide that 3DS validation is stronger than those other inputs, and the final result of 3DS will decide the final result of transactions, regardless. Or sometime they may decide to deny a transaction caused by wrong inputs after 3DS.
+In this case the Card Issuer still allows to proceed to 3DS even though some of the card data input is invalid. The card issuer is responsible and have the rights to implement card validation process. They may validate expiry date only or both Expiry date AND CVV input, or sometime they prioritize 3DS validation over expiry date and CVV input. They may decide that 3DS/OTP validation is stronger than those other inputs, and the final result of 3DS/OTP will decide the final result of transactions, regardless of invalid expiry date and CVV inputs. Or sometime they may decide to deny a transaction caused by wrong inputs after 3DS.
 
 ### The customer receives notification of successful transaction, from the card issuer or payment provider but the transaction is a failure according to Midtrans. What is the issue?{docsify-ignore}
 
-In some rare cases, when the customer fund is deducted but the acquiring bank is having issues such as network timeout or failure to respond to a *Charge* request, the transaction is considered failure. By default, the customer funds will not be deducted. If the fund is deducted, it will be automatically refunded.
+In some rare cases, when the customer fund is deducted but the acquiring bank is having issues such as network timeout or Acquiring Bank failure to respond to a *Charge* request, the transaction is considered failure. By default, the customer funds will not be deducted. If the fund is deducted, it will be automatically refunded.
 
-Most card issuers or payment providers notify the customer through SMS, email, push notifications, and so on, only when a fund deduction happens. Sometimes the customer is not notified when a transaction is refunded or reversed. This may confuse the customer. Unfortunately, this is directly under the card issuer or the payment provider's control, which neither you nor Midtrans is able to control.
+Most card issuers or payment providers notify the customer (through SMS, email, push notifications, and so on) only when a fund deduction happens. Sometimes the customer is not notified when a transaction is refunded or reversed. This may confuse the customer. Unfortunately, this is directly under the card issuer or the payment provider's control, which neither you nor Midtrans is able to control.
 
-The customer should check billing statement or contact their card issuer to ensure that no fund has been deducted. You can also check the transaction details within Midtrans *Dashboard*. Such transactions will have `reversal` event for card transaction.
+The customer should check their card's real-time billing statement or contact their card issuer to ensure that no fund has been deducted. You can also check the transaction details within Midtrans *Dashboard*. Such transactions will have `reversal` event for card transaction.
 
 If further fund status check is required, merchant can send email to bizops@midtrans.com with at least following information: Order ID, Transaction date, Gross amount.
 
@@ -149,13 +149,15 @@ If further fund status check is required, merchant can send email to bizops@midt
 Yes, it is possible. There are no legal or business constraints in doing so. But there can be technical consequences in terms of how Midtrans Fraud Detection System (FDS) works.
 A few sample cases are listed below.
 
-- The FDS has blacklist database of online fraudsters. If the customer is a fraudster, and you pass a fake email, the fraud might not be detected.
-- The FDS estimates fraud behavior based on transaction count for each email, phone number, and other unique data. If you send static dummy email, it can get blocked after certain number of attempts. To avoid this issue, you should use dynamic dummy data, that is unique for each user. For example, you can mask customer@email.com to MmtMPHTlqVZyE0@dummycompanyemail.com.
+- The FDS has blacklist database of online fraudsters. If the customer is a fraudster, and your system sends a modified customer_details, the fraud attempt might not be able to be prevented.
+- The FDS estimates fraud behavior based on transaction count for each email, phone number, and other unique data. If you send same static dummy email for all customer, it can get blocked after certain number of attempts. To avoid this issue, you should use dynamic masked customer details, that is unique for each user. For example, you can mask customer@email.com to MmtMPHTlqVZyE0@dummycompanyemail.com.
 
-In most cases, you can skip sending the customer data, if the data is not mandatory. For example, GoPay transaction does not require customer email or phone number.
+In most cases, you can skip sending the customer data, if the data is not mandatory. For example, Bank Transfer transaction does not require customer email or phone number.
 
 ### While doing VA transaction, I got error 505, “Unable to create va_number for this transaction”. What is the issue and what should I do?{docsify-ignore}
 This issue might happen because after several attempts, the bank is unable to allocate VA number for the transaction at that moment. For error code 5xx, please try to send the request again.
+
+If the issue persists, please contact us at support@midtrans.com.
 
 ### The customer transaction is blocked by Fraud Detection System (FDS), but I am sure that the customer is legitimate. I want to continue with the transaction. What should I do?{docsify-ignore}
 
@@ -183,22 +185,22 @@ The list of available payment statuses are given below.
 ### Should I refer to `status_code` API response as transaction status?{docsify-ignore}
 `status_code` only refers to the result of current API action. It behaves like HTTP status code. For example, the meaning of `status_code: 200`, depends on the API action context being executed.
 
-For *Create Transaction* API action, `status_code:200` means the API is able to create and receive payment successfully. In case of Get Status API action, `status_code:200` means the API get status action is successful. The transaction is found, regardless of the status of the transaction. It does not refer to the transaction status.
+For *Create Transaction* API action, `status_code:200` means the API is able to create transaction successfully. In case of Get Status API action, `status_code:200` means the API get status action is successful. The transaction is found, regardless of the status of the transaction. It does not refer to the transaction status or payment status.
 
-If you want the reference of the most recent transaction status, it is recommended to check the `transaction_status` instead of `status_code`, which will have consistent value regardless of any API action.
+If you want the reference of the most recent transaction status or payment status, it is recommended to check the `transaction_status` instead of `status_code`, which will have consistent value regardless of any API action.
 
 ### My developer tested failure scenario within GoPay simulator. Nothing happened and the transaction status is still pending. What happened?{docsify-ignore}
 This is expected. In production mode, a failure of payment within Gojek App will be contained only within the app, and will allow customer to retry payment. So, failure is not notified to you or Midtrans. Transaction status will remain as pending, to allow retry attempt from the customer. If the customer fails to do successful payment within the expiry-time (default expiry is 15 minutes) the transaction status will change to `EXPIRE` and cannot be paid.
 
 ### For MIGS acquiring (and facilitator agreement type), if my customer says their card is deducted but Midtrans says the transaction is failure, what to do next?{docsify-ignore}
-In case of payment status mismatch between Midtrans MAP and MIGS based acquiring bank (which usually only happens when the MIGS encounters a timeout), please check the payment status from the MIGS portal using the account given by the bank. Then check whether the *Transaction ID* was successful using search. On the MIGS portal, you can search by `transaction_id` from Midtrans API response or MAP. If the transaction is shown as successful on the MIGS portal, please ensure that the transaction is proceeded with either one of the following:
+In case of payment status mismatch between Midtrans MAP and MIGS based acquiring bank (which usually only happens when the MIGS encounters a timeout), please check the payment status from the MIGS portal using the account given by the bank. Then check whether the *Transaction ID* was successful using search feature. On the MIGS portal, you can search by `transaction_id` from Midtrans API response or MAP. If the transaction is shown as successful on the MIGS portal, to ensure Midtrans & MIGS transaction status is in sync, then please decide which one you prefer to proceed with:
 
-* Canceled/refunded: Please proceed with cancel/refund on MIGS portal side, so that it matches with status on Midtrans side. Or,
+* Cancel/refund the transaction: Please proceed with cancel/refund on MIGS portal side, so that it matches with status on Midtrans side. Or,
 
-* Successful: If it is allowed to be successful, please inform Midtrans so that Midtrans can update the transaction status to success, to match the status on MIGS portal.
+* Accept the transaction: If you want to leave it as accepted/successful transaction, please inform Midtrans so that Midtrans can update the transaction status to success, to match the status on MIGS portal.
 
-### I specified the transaction as 3DS. The card is 3DS, but the first transaction fails and no OTP/3DS is displayed. What should I do?{docsify-ignore}
-Search PAPI graylog by `transaction_id`, search `error` or keyword `exception`. For example, you may find
+### Merchant's MID is 3DS. The card is 3DS, this is first transaction on that MID, and it fails with no OTP/3DS displayed. What should I do?{docsify-ignore}
+Search PAPI graylog by `"<the transaction_id>"`, find for keyword `error` or `exception`. For example, you may find
 ```
 done executing verify to netcetera with response={"session_id":"00259985-2a42-4196-bdf4-50c872c4ef71","error":{"message":"The input value for the element 'merchant.url' is missing.","code":"INP-MISS","element":"merchant.url"}}
 ```
@@ -207,8 +209,7 @@ It means Merchant URL is required but empty, ask merchant to complete their *Das
 ### While submitting to Apple App Store using Midtrans iOS Mobile SDK, I got warning about deprecated `UIWebView`. What should I do?{docsify-ignore}
 > Note: Only applicable if you are using Midtrans iOS SDK, specifically under version v1.16.0.
 
-Recently, Apple introduced a new App Submission warning, stating that they are formally deprecating `UIWebView` in favor of `WKWebView`. We want to let you know that Midtrans iOS SDK has been updated to use `WKWebView` on our latest version of Midtrans iOS SDK `v1.16.0` to meet the new Apple App Submission requirement. Please update to this latest version next time you plan to submit your app to the App Store.
-
+Apple introduced a new App Submission warning, stating that they are formally deprecating `UIWebView` in favor of `WKWebView`. We want to let you know that Midtrans iOS SDK has been updated to use `WKWebView` on our latest version of Midtrans iOS SDK `v1.16.0` to meet the new Apple App Submission requirement. Please update to this latest version next time you plan to submit your app to the App Store.
 
 ### Customer fails to be redirected to gojek:// deeplink on mobile app. What should I do?{docsify-ignore}
 If you are using Android app WebView to open the deeplink URL, WebView needs to be configured to allow open deeplink to other app.
@@ -245,10 +246,10 @@ On iOS, you will need to add `LSApplicationQueriesSchemes` key to your app's `In
 </array>
 ```
 
-#### Web Browser and Progressive Web App (PWA)
-If the customer is transacting through Mobile Web Browser and PWA and the Gojek App fails to open, please make sure that you are not trying to open `gojek://` deeplink via JavaScript. Some web browsers **may block** link opening or redirection through JavaScript, because browsers consider it as malicious pop-up.
+#### Web Browser or Progressive Web App (PWA)
+If the customer is transacting through Mobile Web Browser or PWA, and the Gojek App fails to open, please make sure that you are not trying to open `gojek://` deeplink via JavaScript. Some web browsers **may block** link opening or redirection through JavaScript, because browsers consider it as malicious pop-up.
 
-**Don't do** this, via JavaScript:
+**Avoid doing** this, via JavaScript:
 ```javascript
 window.open("gojek://gopay/merchanttransfer?tref=RHHM5IIFEIZCAUEWYDFITLBW", '_blank');
 ```
@@ -358,7 +359,7 @@ Midtrans API endpoint is distributed and protected with multiple layers of secur
 api.midtrans.com
 app.midtrans.com
 ```
-> Note: Always use the domain name to contact our API — never use an IP address.
+> Note: Always use the domain name to contact our API — avoid using IP address, because it may changes.
 
 
 Or if you really need to, you can whitelist the IP listed [here](https://www.cloudflare.com/ips/). However, you are responsible to always update the list yourself in case it got updated, else it might break your integration with Midtrans.
@@ -366,7 +367,7 @@ Or if you really need to, you can whitelist the IP listed [here](https://www.clo
 For inbound request from Midtrans, we provide IP address to whitelist. For more details, refer to [IP Addresses & API Domain](https://docs.midtrans.com/en/reference/address.html).
 
 ### Why am I getting `403` from Cloudflare, while using reverse-proxy to contact Midtrans API?{docsify-ignore}
-We always recommend requests to be sent directly to Midtrans API. Using reverse-proxy in front of Midtrans API can risk exposing the transaction data and its log to the proxy. Exposing payment data like credit card pose big security risk and should be avoided.
+We always recommend requests to be sent directly to Midtrans API. Using reverse-proxy in front of Midtrans API can risk exposing the transaction data (and its log) to the proxy. Exposing payment data like credit card pose big security risk and should be avoided.
 
 Midtrans is also using Cloudflare as security measure on top of Midtrans API. Cloudflare might block the request because it thinks the request is indicated as insecure.
 
@@ -376,7 +377,7 @@ If you are still getting `403` without using proxy, please ensure your HTTP requ
 
 \#cloudflare \#security \#proxy
 
-### My developers are using React/Vue/Angular (or any frontend framework) PWA. Does Midtrans have any compatible library?{docsify-ignore}
+### My developers are using React/Vue/Angular (or any frontend specific framework). Does Midtrans have any compatible library?{docsify-ignore}
 Please note that those frameworks are frontend JS frameworks.
 
 Midtrans Core API product requires backend integration only. You are free to use anything you want on the frontend, as long as it able to display the data returned by Core API on the backend.
@@ -384,7 +385,7 @@ Midtrans Core API product requires backend integration only. You are free to use
 Midtrans Snap product requires backend and frontend integration. On the backend, those frameworks do not matter. You still can use [our library](https://beta-docs.midtrans.com/en/technical-reference/library-plugin), based on your backend technology stack. While on the frontend refer to the question [below](#my-developer-uses-react-js-frontend-framework-and-is-unable-to-use-midtransminjssnapjs-what-should-i-do).
 
 ### My developer uses React JS frontend framework, and is unable to use midtrans.min.js/snap.js. What should I do?{docsify-ignore}
-Please be aware that React (or other frontend framework) does play nicely with regular JS library inside `<script>` tag. Both are same frontend-based JS anyway, so they can still access each other. So, include the midtrans.min.js/snap.js as `<script>`. `Veritrans` object, still available as global `window.Veritrans` object inside React. `Snap` object is still available as global `window.Snap` object inside React. Please refer to https://github.com/facebook/create-react-app/issues/3007#issuecomment-357863643.
+Please be aware that React (or other frontend framework) does play nicely with regular `<script>` tag based JS library. Both are same frontend-based JS anyway, so they can still access each other. So, include the midtrans.min.js/snap.js as `<script>`. `Veritrans` object, still available as global `window.Veritrans` object inside React. `Snap` object is still available as global `window.Snap` object inside React. Please refer to https://github.com/facebook/create-react-app/issues/3007#issuecomment-357863643.
 
 ### When I try to send request to Midtrans API, it always gets blocked by CORS Policy on the browser. What is the issue?{docsify-ignore}
 For now, it is expected to get CORS issue when calling `/transactions` endpoint from frontend (until our *Snap* API team decides to allow CORS). Please send the API request securely from backend.
@@ -411,11 +412,11 @@ Here are some things that can be done if there is any mismatch in the transactio
 ### I used Midtrans provided CMS plugin/module, but found that it does not exactly suit my specific needs. Can Midtrans help change the plugin/module?{docsify-ignore}
 Midtrans provides easy-to-install popular CMS plugin/module to cover general merchant use-cases and some advanced features. We will try our best to cover use-cases that are generally needed by most merchants.
 
-However, please note that any of the CMS module is developed as-is and without any warranty (MIT licensed, see the License file). As every use-case is unique and different, there is no warranty to cover all merchant-specific needs. There is no one-fits-all solution.
+However, please note that any of the CMS module is developed as-is and without any warranty (MIT licensed, see the License file). As every use-case may be unique and different for each merchant, there is no warranty to cover every merchant-specific needs. There is no one-fits-all solution unfortunately.
 
-Midtrans publishes open-source code of the modules. Your development team should be able to further develop or use it depending on your customization needs. Fulfilling your specific use cases should be their responsibility.
+Midtrans publishes open-source code of the modules. Your development team should be able to further develop or use it depending on your customization needs. Fulfilling your specific use cases should fall in to their scope.
 
-Midtrans however is fully responsible for payment API service (not CMS plugin/module, but API). You can let us know if there is any feedback for us related to the API. We will also consider implementing feedback for CMS plugin/module if the feedback is beneficial to general use-cases.
+Midtrans however is fully responsible for payment API service (not the CMS plugin/module, but the API). You can let us know if there is any feedback for us related to the API. We will also consider implementing feedback for CMS plugin/module if the feedback is beneficial to general use-cases.
 
 ### I am using Midtrans provided CMS plugin/module. But I encounter an issue. Can Midtrans help?{docsify-ignore}
 Since the plugin/module and the CMS is hosted on the merchant's infrastructure, Midtrans may not be able to check it directly.
@@ -445,9 +446,9 @@ Midtrans may not be able to guarantee anything, due to the numerous external fac
 Also, please refer to [previous question](#i-used-midtrans-provided-cms-pluginmodule-but-found-that-it-does-not-exactly-suit-my-specific-needs-can-midtrans-help-change-the-pluginmodule).
 
 ### Our customer or team tried to pay using a debit card, but we are getting responses that the transaction is denied. What is the issue?{docsify-ignore}
-Please note that all debit cards (especially in Indonesia) by the card issuer (bank), are not activated for online payment. That can vary depending on card issuer (bank) regulation. By default, most major Indonesian banks still do not activate debit card for online transaction because of security reasons. In this case, before attempting to make online transactions, the customer (card holder) should confirm with the card issuer (bank) that their debit card is activated for online transaction.
+Please note that not all debit cards (especially in Indonesia) are activated for online payment by the card issuer (bank). That can vary depending on card issuer (bank) regulation. By default, most major Indonesian banks still do not activate debit card for online transaction because of security reasons. In this case, before attempting to make online transactions, the customer (card holder) should confirm with the card issuer (bank) that their debit card is activated for online transaction.
 
-Additionally, some customer services of card issuer (especially in Indonesia) also don’t really understand the difference between online and offline transactions, they would often mistakenly inform customer that the debit card is available for transactions. Customer should explain the issue in detail providing which website they try to transact, and evidence (screenshot, web URL), if available. So, the card issuer can better understand the case.
+Additionally, some customer services of card issuer (especially in Indonesia) also don’t really understand the difference between online and offline transactions, they would often mistakenly inform customer that the debit card is available for transactions. Customer should explain the issue in detail providing which website they try to transact, and evidence (screenshot, web URL), if available. So, the card issuer can better understand and handle the case.
 
 ### How does Midtrans ensure that the customer card data is securely transmitted to Midtrans and not compromised by third-party?{docsify-ignore}
 All the data transmitted from the customer device to Midtrans should be encrypted over the network layer via SSL/HTTPS. That means data transmission is end-to-end encrypted (customer-to-Midtrans), and secure from any third-party. Only the customer and Midtrans can see the real values of data being transmitted, unless a third-party has direct control over the customer's device (which means already compromised anyway) or is able to decrypt SSL/HTTPS.
@@ -468,13 +469,13 @@ If you have proof of how this can possibly cause significant risk, feel free to 
 
 ### I am using GoPay `callback_url` but the customer is not redirected to expected URL/deeplink. What is wrong?{docsify-ignore}
 For GoPay transaction, you can specify the `callback_url`. After attempting GoPay payment within Gojek app, the customer will be redirected to `callback_url` whether the result is failure or success. If the customer did not get redirected properly, please check the points given below.
-- **The customer is making payment on Gojek app via QR Code**
+- **If the customer is making payment on Gojek app via QR Code**
 Making payment by scanning QR will not result in redirect. Only `gojek://` deeplink method will result in redirect.
-- **You are using `http/https` protocol as the URL**
+- **If You are using `http/https` protocol as the URL**
 Make sure to add trailing slash `/` at the end of the URL. For example, `https://myshop/finish_payment/`. GoPay will automatically append `?<some-query>` at the end of the URL. Web framework is unable to handle `?`, appended to your URL like `https://myshop/finish_payment?order_id=123`. So, you have to ensure to add `/`.
-- **Merchant app use deeplink protocol as the URL**
+- **If merchant app use deeplink protocol as the URL**
 Make sure the merchant app handles deeplink URL, for example `slack://finis_payment/`. Make sure the `slack` app can handle `/finish_payment` as deeplink.
-- **The callback_url triggers any redirect**
+- **If the callback_url triggers any redirect**
 Sometimes callback_url triggers redirect to another URL, or you have internal redirect rule within your network/device. Please check that URL.
 
 \#gopay \#mobile \#snap
@@ -482,11 +483,11 @@ Sometimes callback_url triggers redirect to another URL, or you have internal re
 ### After creating a GoPay transaction or after the transaction status is pending, how long is it available for payment?{docsify-ignore}
 The default expiry for GoPay transaction is 15 minutes. However this can be customized by sending additional JSON parameter `custom_expiry` ([Core API](https://api-docs.midtrans.com/#charge-features)) or `expiry` ([Snap API](https://snap-docs.midtrans.com/#json-objects)) during transaction creation.
 
-It is **not recommended to set expiry less than 15 minutes**. Expiry time is subjected to some delay because of batch processing of periodic expire transactions. Midtrans expiry scheduler reliably expires the transaction within fifteen minutes or more. If you want the transaction to expire in real time or less than 15 minutes, utilize API [cancel](https://api-docs.midtrans.com/#cancel-transaction) or [expire](https://api-docs.midtrans.com/#expire-transaction) which you can trigger anytime on a `pending` transaction.
+It is **not recommended to set expiry less than 15 minutes**. Expiry time is subjected to some delay because of batch processing of periodic expire transactions. Midtrans expiry scheduler may only reliably expires the transaction within 15 minutes or more. If you want the transaction to expire in real time or less than 15 minutes, utilize API [cancel](https://api-docs.midtrans.com/#cancel-transaction) or [expire](https://api-docs.midtrans.com/#expire-transaction) which you can trigger anytime on a `pending` transaction.
 
 \#gopay
 
-### Can merchant store or retrieve GoPay deeplink URL in mobile app?{docsify-ignore}
+### Can merchant store or retrieve GoPay deeplink URL if using Snap or Mobile SDK?{docsify-ignore}
 For *Snap* payment product, payment UI is managed by Midtrans.
 
 - If you are using Snap.js or `redirect_url` to display transaction, the GoPay deeplink/QR URL is currently not retrievable from merchant side.
@@ -520,7 +521,7 @@ https://app.midtrans.com/snap/v2/vtweb/c9e25cd7-1b89-4fc9-8cb8-ab0342eac21f?GoPa
 
 ### Is GoPay QR or QRIS provided by Midtrans API a dynamic QR or static QR?{docsify-ignore}
 
-All QR for GoPay QR and QRIS are a dynamic QR. This means there is a unique QR for each transaction. This ensures that payments cannot be done more than once. Once a payment is created, the transaction amount is fixed. This is unlike static QR for mostly offline merchants, which can be re-used, but don't have fixed amount.
+All QR for GoPay QR and QRIS are a dynamic QR. This means there is a unique QR for each transaction. This ensures that payments cannot be done more than once. Once a payment is created, the transaction amount is fixed. This is unlike static QR for mostly offline merchants, which can be re-used, but don't have fixed transaction amount.
 
 \#qris \#gopay \#snap
 
@@ -625,7 +626,7 @@ It is recommended to specify payment channel from merchant backend/server. Befor
 If you really need it on client/front end side, try adding the configuration given below.
 
 Android Java
-```
+```java
 List<String> enablePayment = new ArrayList<>();
 enablePayment.add("gopay");
 enablePayment.add("credit_card");
@@ -723,55 +724,32 @@ ECI for **non-3DS** transaction is `07` or `00` (bad value). For more details, r
   ECI for **non-3DS** transaction is `07` or `00 `(bad value).
 
 ### Can you explain the implementation details of Credit Card 3DS transaction?{docsify-ignore}
+Please refer to this [Core API Card Transaction Documentation](https://docs.midtrans.com/en/core-api/credit-card).
+
 For sample implementation, please refer to the links given below.
 - https://github.com/Midtrans/midtrans-nodejs-client/blob/master/examples/expressApp/views/core_api_credit_card_frontend_sample.ejs
 - https://github.com/Midtrans/midtrans-python-client/blob/master/examples/flask_app/templates/core_api_credit_card_frontend_sample.html
 
-For demo, please refer to the links given below.
-- https://anice.win/3ds_new/
-
-For source code, please refer to the link given below.
+For more source code, please refer to the link given below.
 - https://gist.github.com/rizdaprasetya/9d16893578d600a03075939ef74c5c1f
 
-Please refer to the sequence diagram given below.
-
-![card transaction flow](./asset/image/card_transaction_3ds.png)
+### Can you explain the flow of Recurring transaction using *Snap*?{docsify-ignore}
+Please refer to the [sequence diagram described on this documentation]().
 
 ### Can you explain the flow of Recurring/One Click transaction?{docsify-ignore}
-Please refer to the sequence diagram given below.
-
-![one click flow](./asset/image/recurring_one_click_sequence.png)
+Please refer to the [sequence diagram described on this documentation](https://docs.midtrans.com/en/core-api/advanced-features?id=recurringone-click-transaction).
 
 ### Can you explain the flow of Recurring/One Click transaction with Register Card API?{docsify-ignore}
-Please refer to the sequence diagram given below.
-
-![one click via register card flow](./asset/image/recurring_via_register_card.png)
+Please refer to the [sequence diagram described on this documentation](https://docs.midtrans.com/en/core-api/advanced-features?id=recurring-transaction-with-register-card-api).
 
 ### Can you explain the flow of Two Click transaction?{docsify-ignore}
-Please refer to the sequence diagram given below.
-
-![two click flow](./asset/image/two_click_sequence.png)
+Please refer to the [sequence diagram described on this documentation](https://docs.midtrans.com/en/core-api/advanced-features?id=two-click-transaction).
 
 ### Can you explain the flow of GoPay transaction?{docsify-ignore}
-Please refer to the sequence diagram given below.
-
-**Deeplink Mode**:
-
-![Gopay Deeplink flow](./asset/image/gopay_coreapi_deeplink.png)
-
-**QR Mode**:
-
-![Gopay QR flow](./asset/image/gopay_coreapi_qr.png)
+Please refer to the [sequence diagram described on this documentation](https://docs.midtrans.com/en/core-api/e-wallet).
 
 ### Can you explain the flow of Bank Transfer/VA transaction?{docsify-ignore}
-Please refer to the sequence diagram given below.
-
-![Bank Transfer VA flow](./asset/image/va_coreapi.png)
-
-### Can you explain the flow of Recurring transaction using *Snap*?{docsify-ignore}
-Please refer to the sequence diagram given below.
-
-![snap recurring flow](./asset/image/snap_recurring_sequence.png)
+Please refer to the [sequence diagram described on this documentation](https://docs.midtrans.com/en/core-api/bank-transfer).
 
 ### I updated iOS SDK from v1.14.7 and earlier versions. But the implementation did not work after the update. How can I to resolve it?{docsify-ignore}
 - Earlier SDK required configuration of `CC_CONFIG.secure3DEnabled = ...`. Newer SDK no longer requires it. Please remove that configuration. Then add `CC_CONFIG.authenticationType = MTAuthenticationType3DS` configuration.
@@ -828,7 +806,7 @@ Please enable network logging using the following:
 For any issues, please contact us at support@midtrans.com with the network log result.
 
 ### Can Midtrans show or deduct MDR directly to the customer during payment?{docsify-ignore}
-Business and regulation wise, Merchant Discount Rate (MDR) as the name suggests, is your responsibility to the payment provider (bank or card network principal). MDR should be charged to the merchant, not the customer. So, it should not be directly charged to customer.
+Business and regulation wise, Merchant Discount Rate (MDR) as the name suggests, is merchant's responsibility to the payment provider (bank or card network principal). MDR should be charged to the merchant, not the customer. So, it should not be directly charged to customer.
 
 However merchant may manage this by charging a fee to the customer. Merchant may define additional service fee or include it to the final item price to customer.
 
@@ -855,7 +833,8 @@ For example, merchant can add fee as additional `item_details` when requesting p
 ### For a failure card transaction, there is `reversal transaction` entry in *Dashboard*. What does that mean?{docsify-ignore}
 You need not be alarmed when you see this `reversal transaction` entry in *Dashboard*. When a card transaction is failed because of acquiring bank timeout (no response after a while), Midtrans will make sure that the customer fund does not get deducted, by sending reversal command to the bank. If the customer fund is deducted during the timeout, the reversal will make sure the fund will be reverted to customer. If fund is not deducted, then the reversal will not do anything.
 
-### I am using Midtrans Shopify integration. Sometimes item stock quantity becomes negative (item oversell). Why does this happen?{docsify-ignore}
+<!-- No longer relevant -->
+<!-- ### I am using Midtrans Shopify integration. Sometimes item stock quantity becomes negative (item oversell). Why does this happen?{docsify-ignore}
 This behavior can happen in some specific cases if the item stock is low, and there are multiple customers trying to checkout the same item. This usually happens during promo or flash sale period. If the order is not yet paid, the stock quantity is not yet reserved for that customer. When multiple customers pay their orders within a short time period, all of the orders can be accepted on Shopify side, causing negative stock quantity. This happens due to the limitation of Shopify platform integration model with external payment gateway.
 
 For now, there is no work around of this behavior, and Shopify team confirms it as expected behavior.
@@ -867,7 +846,7 @@ This stock discrepancy occurs because once the request to move to the gateway is
 However if it’s the case where multiple orders come in at once, they all have the ability of making it to the external gateway provided there is still at least 1 stock available when they click Complete Payment, this is because we can't decrement inventory levels until the initial customer has returned from the gateway with a successful transaction.
 Then because other customers were permitted to proceed to the gateway, any successful transactions they place will also decrement inventory even if it's already at zero due to the fact there was still at least one in stock when they began payment and the order was permitted to proceed.
 
-> It is a factor that our support developers are working on and they're constantly testing for a new method of offsite gateways integrating with our inventory services, but as it currently stands this is something that can happen with use of an external payment gateway which is not directly connected to an online checkout.
+> It is a factor that our support developers are working on and they're constantly testing for a new method of offsite gateways integrating with our inventory services, but as it currently stands this is something that can happen with use of an external payment gateway which is not directly connected to an online checkout. -->
 
 ### Why does Google Analytics within *Snap* payment page differ from the one configured from the *Snap* Preference menu?{docsify-ignore}
 When you are using `Snap.js`, *Snap* payment page is loaded within iframe inside merchant's website. The custom Google Analytics UA ID configured on `Snap Preference` menu on Midtrans *Dashboard* are loaded dynamically within the iframe. You might not immediately find it on the HTML, because it is dynamically loaded via Ajax.
@@ -900,10 +879,10 @@ In some cases, you may find that transaction status change is not reflected on m
 
 If the status is updated on Midtrans but not on merchant's system, please check the HTTP Notification sent from Midtrans to the merchant's System.
 
-Most likely the issue is caused by mis-implementation of **Notification URL** handler on merchant backend. For more details, refer to [View notification history](https://beta-docs.midtrans.com/en/after-payment/http-notification?id=view-notification-history).
+Most likely the issue is caused by mis-implementation of **Notification URL** handler on merchant backend. For more details, refer to [View notification history](https://docs.midtrans.com/en/after-payment/http-notification?id=viewing-notification-history).
 
 ### Refund has been requested for QRIS transaction. But the customer has not received the refund yet. What is the issue?{docsify-ignore}
-When the customer made payment using QRIS (Quick Response Indonesian Standards) protocol, it is nationally interconnected between Indonesian wallet providers. This is facilitated by national-switching-company assigned by Bank Indonesia, as official regulatory. The funds are routed from their source-wallet (For example, Wallet ABC), to national payment-switching-company, and then to the acquiring-wallet (GoPay) for the merchant.
+When the customer made payment using QRIS (Quick Response Indonesian Standards) protocol, it is nationally interconnected between Indonesian e-money providers. This is facilitated by national-switching-company assigned by Bank Indonesia, as official regulatory. The funds are routed from their source-wallet (For example, Wallet ABC), to national payment-switching-company, and then to the acquiring-wallet (GoPay) for the merchant.
 
 When refund happens, the fund travels in the opposite route. In this case the merchant may have requested GoPay, so the refund must be completed by GoPay. Both merchant and GoPay have completed their responsibility for refund process. However the fund may now be between national-switching-company and source-wallet (For example, Wallet ABC), and is subject to their refund policy, which may take up to several days.
 
