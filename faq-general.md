@@ -311,10 +311,10 @@ For more reference, follow the links given below.
 - https://stackoverflow.com/questions/56800122/err-unknown-url-scheme-on-react-native-webview
 - https://stackoverflow.com/questions/35531679/react-native-open-links-in-browser
 
-### Failure to redirect the customer to Gojek GoPay, Shopee Pay, and other e-wallet payment provider app. What should I do?
+### Failure to redirect the customer to Gojek GoPay, Shopee Pay, and other e-Money payment provider app. What should I do?
 Refer to the question given [above](#customer-fails-to-be-redirected-to-gojek-deeplink-on-mobile-app-what-should-i-do).
 
-It applies to other E-Wallet payment providers too. For example, if the issue happens to `shopee://` app deeplink, then proceed with the suggestion to allow deeplink whitelist, but replace `gojek://` with `shopee://`.
+It applies to other E-Money payment providers too. For example, if the issue happens to `shopee://` app deeplink, then proceed with the suggestion to allow deeplink whitelist, but replace `gojek://` with `shopee://`.
 
 
 ### Why am I getting notified to update my system version?
@@ -543,10 +543,10 @@ For example, if you received a transaction worth IDR 100K, and IDR 0 payable tod
 
 \#gopay \#refund
 
-### My team/my customer tried failure payment scenario on E-Wallet transaction. But transaction status does not update to failure?
-If you are declining payment, through API `/cancel` the transaction status will become failure. But if the customer is trying to pay, then it fails within the E-Wallet app. They have chance to top-up their E-Wallet and retry the payment. It is expected that the status will remain as `pending` until it eventually becomes `settlement` or `expire` because of time limit.
+### My team/my customer tried failure payment scenario on E-Money transaction. But transaction status does not update to failure?
+If you are declining payment, through API `/cancel` the transaction status will become failure. But if the customer is trying to pay, then it fails within the E-Money app. They have chance to top-up their E-Money and retry the payment. It is expected that the status will remain as `pending` until it eventually becomes `settlement` or `expire` because of time limit.
 
-So, E-Wallet may contain the failure within their own app and does not reflect failures to merchant/Midtrans, in order to give customer chance for retries. From business perspective it also increases your payment success rate and may increase revenue.
+So, E-Money may contain the failure within their own app and does not reflect failures to merchant/Midtrans, in order to give customer chance for retries. From business perspective it also increases your payment success rate and may increase revenue.
 
 \#gopay \#refund
 
