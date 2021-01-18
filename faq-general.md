@@ -305,11 +305,34 @@ openExternalLink= (req) => {
   }
 }
 ```
-For more reference, follow the links given below.
+For more reference, please visit:
 - https://facebook.github.io/react-native/docs/linking#opening-external-links
 - https://stackoverflow.com/questions/54248411/react-native-deep-link-from-within-webview
 - https://stackoverflow.com/questions/56800122/err-unknown-url-scheme-on-react-native-webview
 - https://stackoverflow.com/questions/35531679/react-native-open-links-in-browser
+
+#### Flutter
+
+On Flutter if you are using WebView, referring to this community resource: https://stackoverflow.com/a/60515494 , you will need to implement this listener of the WebView in order to override Deeplink URL to be opened by the device's OS:
+```
+_subscription = webViewPlugin.onUrlChanged.listen((String url) async {
+      print("navigating to deeplink...$url");
+      if (url.startsWith("gojek"))
+      {
+        await webViewPlugin.stopLoading();
+        await webViewPlugin.goBack();
+        if (await canLaunch(url))
+        {
+           await launch(url);
+           return;
+        }
+        print("couldn't launch deeplink $url");
+      }
+    });
+```
+
+For more reference, please visit:
+- https://github.com/fluttercommunity/flutter_webview_plugin/issues/43
 
 ### Failure to redirect the customer to Gojek GoPay, Shopee Pay, and other e-Money payment provider app. What should I do?
 Refer to the question given [above](#customer-fails-to-be-redirected-to-gojek-deeplink-on-mobile-app-what-should-i-do).
