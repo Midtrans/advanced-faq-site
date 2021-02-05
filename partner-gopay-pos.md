@@ -1,5 +1,11 @@
 # GoPay Integration
 
+<script type="text/javascript">
+  window.location.replace('https://docs.midtrans.com/en/other/faq/gopay-pos');
+</script>
+<!-- THIS PAGE & REPO IS DEPRECATED AND MIGRATED TO ABOVE REDIRECT URL -->
+<!-- Kept live on netlify for redirecting purpose -->
+
 Integration process of GoPay will be explained below.
 
 ## Overview

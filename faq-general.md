@@ -1,5 +1,10 @@
 ## FAQ General Topic
 
+<script type="text/javascript">
+  window.location.replace('https://docs.midtrans.com/en/other/faq/technical');
+</script>
+<!-- THIS PAGE & REPO IS DEPRECATED AND MIGRATED TO ABOVE REDIRECT URL -->
+<!-- Kept live on netlify for redirecting purpose -->
 
 ### Which of the Credit Card acquiring banks need BCA MIGS Pilot testing?
 BCA, Maybank, and BRI banks need BCA MIGS Pilot testing for full payment and installment payments.
