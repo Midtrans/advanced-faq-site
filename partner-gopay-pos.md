@@ -1,7 +1,7 @@
 # GoPay Integration
 
 <script type="text/javascript">
-  var destinationUrl = 'https://docs.midtrans.com/en/other/faq/technical';
+  var destinationUrl = 'https://docs.midtrans.com/en/other/faq/gopay-pos';
   var queryObj = Docsify.util.parseQuery(document.location.href.split('?')[1] || '');
   if (queryObj && queryObj['id']){
     window.location.replace(destinationUrl+'?id='+queryObj['id']);
